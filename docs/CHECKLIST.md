@@ -3,7 +3,7 @@
 Marca `[x]` solo con evidencia observada en `docs/evidencias/REGISTRO.md`. Usa `N/A — motivo` cuando una ruta no aplique.
 
 **Proyecto:** Wammetka  
-**Fase actual:** 3 — Rebanada P0; **T05 DOING** (login real). T01/T02/T03 no DONE (teléfono / repo GitHub / Docker local).
+**Fase actual:** 3 — Rebanada P0; **T05 DOING** (login real). T02 DONE (CI verde). T01/T03/T05 sin DONE (teléfono / Docker local / smoke APK).
 
 ## Fase 0 — Preparación reproducible
 
@@ -45,7 +45,7 @@ Marca `[x]` solo con evidencia observada en `docs/evidencias/REGISTRO.md`. Usa `
 - [x] Specs `docs/specs/` AUTH, CATALOGO, PEDIDO, ACTUALIZACION.
 - [x] Navegación/contratos y estructura de carpetas documentados.
 - [x] Primera rebanada vertical = tareas concretas en `TASKS.md`.
-- [ ] Repo **GitHub o GitLab** identificado (URL y elección en perfil/expediente). **Elección GitHub; URL bloqueada: el repo aún no existe.**
+- [x] Repo **GitHub o GitLab** identificado (URL y elección en perfil/expediente). https://github.com/wcmg1000-hue/wammetka
 - [x] `docs/SEGURIDAD.md` revisado y riesgos registrados.
 - [x] `docs/VERIFICACION.md` con comandos exactos (= jobs del remoto).
 - [x] ADR para decisiones costosas o difíciles de revertir.
@@ -84,12 +84,12 @@ Orden: T01 scaffold → T02 CI → T03/T04 seed+smoke → T05 auth+tests → T06
 
 - [x] Scaffold y estructura real del stack. (`flutter analyze` + APK arm64 en REGISTRO; **falta smoke teléfono**)
 - [x] Tema/componentes base cuando existe UI. (`lib/theme/`)
-- [ ] **CI del remoto** (T02): format + analyze + test verdes (PR/MR y default); build **arm64** verde en default — ver `CI_CD.md`.
+- [x] **CI del remoto** (T02): format + analyze + test verdes (PR/MR y default); build **arm64** verde en default — ver `CI_CD.md`. Run https://github.com/wcmg1000-hue/wammetka/actions/runs/34656548482
 - [ ] Flujo crítico UI/API → auth → autorización → dato (**sin mocks permanentes**). _(auth cliente T05; catálogo T06 no abierto)_
 - [ ] Given/When/Then con dueño (`test` o `smoke` en §12); **3 tests núcleo** (auth / no-puede / validación) — `QA_MINIMO.md`. _(tests núcleo PASS en REGISTRO; falta smoke teléfono)_
 - [ ] Smoke en **dispositivo del perfil** (Android → APK + teléfono; web → navegador; etc.).
 - [ ] **Auto-update** si Android APK directo; si no, N/A — motivo.
-- [ ] URL pipeline + PASS en `REGISTRO.md`.
+- [x] URL pipeline + PASS en `REGISTRO.md`.
 
 **Puerta:** flujo real en dispositivo del perfil + analyze/test/build verdes + REGISTRO.
 
@@ -172,7 +172,6 @@ Orden: T01 scaffold → T02 CI → T03/T04 seed+smoke → T05 auth+tests → T06
 ## Notas
 
 - 2026-09-11: Tomos PDF I–VI mapeados al molde. Huecos de los PDF (plataforma, cloud, G/W/T, CI, modelo de tablas) cerrados con supuestos S1–S8 en el perfil.
-- 2026-09-11: T05 cliente Supabase por `--dart-define` (nunca `service_role`). Login seed observado en test live. T02 sigue sin repo GitHub. T01 sin teléfono.
+- 2026-09-11: T02 DONE — repo público + Actions PASS (verify + build_apk). T05 sigue DOING (falta teléfono). T01 sin smoke.
 - T03 no debe usar el project-ref de otro aplicativo de la org.
-- Git: no hay commit hasta petición explícita.
 

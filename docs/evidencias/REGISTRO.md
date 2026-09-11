@@ -18,5 +18,7 @@
 | 2026-09-11 | T05 Auth | analyze | `flutter analyze` | PASS (exit 0) | local Flutter 3.47.2 | `lib/config` + `lib/features/auth` | consola Agent |
 | 2026-09-11 | T05 Auth | tests núcleo | `flutter test` | PASS 7 + 1 skip (live sin dart-define) | local | `test/auth_nucleo_test.dart` | CI-compatible; sin secretos |
 | 2026-09-11 | T05 Auth | login seed live | `flutter test test/auth_live_optional_test.dart --dart-define-from-file=dart_defines.local.json` | PASS | staging | `cliente@wammetka.test` + no-puede autoascenso | archivo define gitignored. **T05 no DONE** (falta smoke teléfono) |
+| 2026-09-11 | T02 CI | push origin main | `git push -u origin main` | PASS | GitHub público | `46441d8` | https://github.com/wcmg1000-hue/wammetka |
+| 2026-09-11 | T02 CI | pipeline Actions | workflow `CI` run 1 · jobs `verify` + `build_apk` | PASS | GitHub Actions ubuntu-latest Flutter 3.47.2 | `46441d8` | https://github.com/wcmg1000-hue/wammetka/actions/runs/34656548482 |
 
 Solo usar `PASS` cuando el resultado haya sido observado. No guardar secretos ni datos personales.

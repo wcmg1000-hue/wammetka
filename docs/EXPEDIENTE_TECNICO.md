@@ -15,7 +15,7 @@ Se genera al cerrar descubrimiento/arquitectura, se actualiza en cada fase y al 
 **Plataforma(s):** Android APK directo + Web (Flutter)  
 **Datos:** nube D1 Supabase  
 **CI:** GitHub Actions — ver `docs/CI_CD.md`  
-**Repo:** _(URL pendiente T02)_  
+**Repo:** https://github.com/wcmg1000-hue/wammetka  
 
 **Fuentes de negocio (PDF, no ejecutables):**
 
@@ -429,7 +429,7 @@ Detalle: `docs/decisions/ADR-001-supabase-flutter.md`.
 ## 16. Entregables y cierre
 
 - [ ] Expediente alineado con la app real  
-- [ ] Pipeline verde en rama principal de GitHub  
+- [x] Pipeline verde en rama principal de GitHub (run 34656548482, 2026-09-11)  
 - [ ] APK / artefacto nombrado  
 - [ ] Auto-update (Android APK directo)  
 - [ ] Manual por rol (obligatorio al cierre del piloto)  
