@@ -1,0 +1,44 @@
+---
+description: Depuración individual por pantalla antes de darla por terminada; evita errores acumulados
+globs: "{src,app,lib,pages,test,tests,integration_test}/**/*"
+alwaysApply: false
+---
+
+# Depuración individual por pantalla
+
+Antes de dar por terminada **cada** pantalla, ejecutar una depuración aislada de esa pantalla.
+Objetivo: detectar y corregir errores uno por uno, no al final en bloque.
+
+## Qué revisar por pantalla
+
+- [ ] APK build sin errores críticos; probado en el **teléfono**
+- [ ] Navegación correcta (mapa / MD)
+- [ ] Estados: vacío, cargando, datos, error, sin conexión
+- [ ] Acciones reales (nunca placeholder “próximamente”)
+- [ ] Permisos por rol
+- [ ] Validaciones de formularios (feedback claro)
+- [ ] Errores visibles; sync cloud no silencioso
+- [ ] Tareas en segundo plano no bloquean la UI
+- [ ] Datos: lectura/escritura verificada desde el teléfono
+
+## Registro
+
+Anotar en `docs/CHECKLIST.md` (sub-checklist por pantalla) o en la spec del módulo:
+
+| Pantalla | Depuración | Errores encontrados | Estado |
+|----------|-----------|---------------------|--------|
+| Nuevo pedido | Hecha | validación total faltaba | Corregido |
+
+## Regla
+
+- Una pantalla no se marca lista si tiene errores abiertos.
+- No avanzar al siguiente módulo si quedan pantallas sin depurar.
+
+## Relación con otras reglas
+
+- Va de la mano con la auditoría visual (`09-auditoria-visual`).
+- Refuerza el DoD de `03-implementacion`.
+
+## Modo recomendado
+
+**Agent** — ejecutar, reproducir estados y corregir.

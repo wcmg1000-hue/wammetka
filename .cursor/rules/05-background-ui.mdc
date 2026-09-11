@@ -1,0 +1,26 @@
+---
+description: Tareas en segundo plano sin bloquear la UI del usuario
+alwaysApply: false
+---
+
+# Trabajo en segundo plano
+
+Cuando el aplicativo esté en uso, las tareas pesadas deben ejecutarse en **background** sin congelar la UI.
+
+## Ejemplos
+
+- Subida de archivos
+- Generación de reportes o PDF
+- Sincronización de datos
+- Notificaciones y procesos batch
+
+## En specs y código
+
+- Indicar qué corre en background y qué es síncrono.
+- Feedback visual: spinner, toast, badge de progreso.
+- Manejo de errores en background (reintento, mensaje al usuario).
+- El usuario debe poder **seguir navegando** mientras procesa.
+
+## DoD
+
+Un módulo no está terminado si una tarea en segundo plano bloquea toda la pantalla o impide usar la app.

@@ -1,0 +1,32 @@
+---
+description: Consultar lecciones aprendidas antes de programar y registrar nuevas al cerrar el proyecto
+alwaysApply: true
+---
+
+# Lecciones aprendidas — memoria de Código Germinación
+
+Existe un documento vivo: `docs/LECCIONES_APRENDIDAS.md` con errores reales de proyectos anteriores y cómo evitarlos/resolverlos (formato Síntoma → Causa → Evitar → Resolver).
+
+## Antes de programar (preventivo)
+
+- **Lee `docs/LECCIONES_APRENDIDAS.md`** antes de escribir UI o lógica, y aplica los patrones preventivos que apliquen al stack del proyecto.
+- Usa el **checklist preventivo** (sección 5) como referencia obligatoria en cada fase.
+- Si el proyecto es Flutter, la regla `14-flutter-ui-calidad` complementa esta con antipatrones concretos.
+
+## Al aparecer un error conocido (curativo)
+
+- Si un síntoma coincide con una ficha, aplica primero el "Cómo resolverlo" documentado antes de improvisar.
+
+## Al cerrar el proyecto (Fase 4/5) — obligatorio
+
+Actualiza `docs/LECCIONES_APRENDIDAS.md`:
+
+1. Revisa los errores encontrados durante el proyecto.
+2. Agrega una ficha nueva **generalizada** (sin nombre de app ni datos sensibles) en la categoría correspondiente, con el formato Síntoma → Causa → Evitar → Resolver y su etiqueta (`[General]`/`[Flutter]`/`[Firebase]`).
+3. Si el error ya estaba fichado, refuerza la ficha existente en vez de duplicarla.
+4. Actualiza el checklist preventivo si surge una regla general nueva.
+
+## Reglas
+
+- El documento es **general**: nunca incluir nombres reales de apps, clientes, credenciales ni datos sensibles. Describir el patrón.
+- No borrar lecciones antiguas; solo mejorarlas o consolidarlas.

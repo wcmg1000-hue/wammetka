@@ -1,0 +1,65 @@
+---
+description: V1 Stitch — implementar desde PANTALLAS_PARA_STITCH.md; HTML manual opcional al final (sin MCP ni ID)
+globs: "{src,app,lib,pages,test,tests,integration_test}/**/*"
+alwaysApply: false
+---
+
+# V1 Stitch — MD primero; HTML manual al final
+
+Esta regla solo aplica cuando `docs/PROJECT_PROFILE.md` selecciona **V1 — Stitch**. En V2–V4 no pedir Stitch.
+
+## Paradigma (obligatorio)
+
+1. Siempre generar `docs/stitch/PANTALLAS_PARA_STITCH.md` con el **mismo texto** que el usuario pegaría en Stitch (regla `06`).
+2. Implementar **toda** la UI desde ese MD (tokens + una pantalla a la vez). **No** esperar HTML ni Stitch terminado.
+3. El usuario puede pegar el MD en Stitch **en paralelo**.
+4. **Al finalizar todo el apartado visual**, el usuario puede comparar y pedir cambiar el diseño pasando **HTML manualmente** (pegar en chat o guardar en `docs/stitch/export/screens/`). Entonces se adapta pantalla por pantalla.
+
+## Eliminado de Código Germinación
+
+- **No** usar MCP de Stitch.
+- **No** pedir ID de proyecto Stitch.
+- **No** configurar API key de Stitch ni `stitch` en `mcp.json` para este flujo.
+
+Lo único opcional al final: **código HTML** que el usuario entrega a mano.
+
+## Implementación (por defecto)
+
+1. MD completo y alineado a specs/navegación.
+2. Tema base desde MD + specs (no exigir `DESIGN.md`).
+3. Una pantalla a la vez = pantalla del flujo **completa** (dato real), inventario MD → app (regla `09`).
+4. Validación en el **dispositivo del perfil** (Android → APK + teléfono; no Chrome/AVD como estándar).
+
+## Adopción HTML (solo al cerrar el visual)
+
+Cuando el usuario diga que prefiere el diseño de Stitch y entregue HTML:
+
+1. Guardar en `docs/stitch/export/screens/` (o usar el pegado en chat).
+2. Adaptar esas pantallas al HTML.
+3. No rehacer todo el alcance sin acuerdo.
+
+## Puertas
+
+| Condición | ¿Bloquea código UI? |
+|---|---|
+| Falta `PANTALLAS_PARA_STITCH.md` | **Sí** |
+| Falta HTML / Stitch / ID / MCP | **No** |
+| Usuario entregó HTML para adoptar | Adaptar esas pantallas |
+
+## Mensajes tipo
+
+**Tras descubrimiento:**
+
+```
+PANTALLAS_PARA_STITCH.md listo. Implemento desde ese MD.
+Puedes pegarlo en Stitch en paralelo. Al terminar el visual,
+si prefieres ese diseño, pásame el HTML manualmente.
+```
+
+**Adopción al final:**
+
+```
+Prefiero el diseño de Stitch para [pantalla(s)].
+HTML aquí / en docs/stitch/export/screens/.
+Adapta la app a ese diseño.
+```

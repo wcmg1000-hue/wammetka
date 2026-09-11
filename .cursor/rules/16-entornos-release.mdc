@@ -1,0 +1,14 @@
+---
+description: Separación local staging producción, despliegue seguro, observabilidad y rollback
+alwaysApply: false
+---
+
+# Entornos y release
+
+1. Local/emulador con datos sintéticos.
+2. Desarrollo/staging separado, desplegado reproduciblemente.
+3. Producción solo con aprobación explícita.
+
+Antes de producción: CI verde, aceptación en staging, backup/restauración si aplica, rollback de app/migración, secretos/permisos revisados, artefacto firmado y monitoreo activo.
+
+Después: smoke test del flujo crítico, revisión de errores/latencia/alertas y evidencia con versión, commit y migraciones.

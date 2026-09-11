@@ -1,0 +1,28 @@
+---
+description: Generar PANTALLAS_PARA_STITCH.md (texto idéntico al pegable en Stitch) al cerrar descubrimiento
+alwaysApply: false
+---
+
+# Estructura visual para Stitch (archivo pegable)
+
+Al **cerrar la fase de descubrimiento** (y antes de implementar código), genera o actualiza `docs/stitch/PANTALLAS_PARA_STITCH.md`.
+
+## Formato obligatorio
+
+Sigue **exactamente** `docs/stitch/PLANTILLA_EJEMPLO.md`. Solo Markdown.
+
+El contenido debe ser **idéntico** al que el usuario pegaría en Stitch. Un solo archivo, un solo texto.
+
+## Contenido
+
+- Todas las pantallas del alcance + navegación por rol.
+- Por pantalla: Objetivo, Elementos, Botones/Acciones.
+- Alineado a specs y mapa de navegación.
+
+## Entrega
+
+1. El MD es la **fuente para implementar YA** (regla `07`).
+2. El usuario puede pegarlo en Stitch en paralelo (`COMO_USAR_EN_STITCH.md`).
+3. HTML manual = solo al **finalizar el apartado visual**, si el usuario lo pide.
+4. **No** MCP ni ID de proyecto Stitch.
+5. Actualizar `CHECKLIST.md`.

@@ -1,0 +1,63 @@
+# Dependencias y secretos — no subir al repositorio
+.env
+.env.local
+.env.*.local
+.env.development
+.env.staging
+.env.production
+!.env.example
+
+# MCP local (tokens OAuth / keys); nunca subir
+.cursor/mcp.json
+
+# Firebase
+service-account.json
+*-firebase-adminsdk-*.json
+
+# Android signing (auto-update APK) — nunca subir la keystore
+*.keystore
+*.jks
+key.properties
+*.p12
+*.pem
+*.key
+
+# Node
+node_modules/
+
+# Flutter / Android local
+android/local.properties
+android/.gradle/
+*.iml
+
+# APK de entrega (binario local; no inflar el remoto)
+*.apk
+!entregas/apk/.gitkeep
+
+# Build
+dist/
+build/
+.next/
+.dart_tool/
+.flutter-plugins*
+coverage/
+test-results/
+
+# Logs y herramientas locales
+*.log
+.idea/
+.vscode/settings.json
+
+# Datos locales / backups (pueden contener información sensible)
+*.sqlite
+*.sqlite3
+*.db
+backups/
+
+# IDE
+.DS_Store
+Thumbs.db
+
+# Supabase local
+.branches
+.temp

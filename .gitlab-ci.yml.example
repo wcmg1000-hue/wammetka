@@ -1,0 +1,87 @@
+# Copiar a `.gitlab-ci.yml` en la raíz del proyecto en T02 (tras scaffold)
+# SI el remoto del perfil es GitLab. Si es GitHub, usar `.github/workflows/ci.yml`.
+# Ajustar imagen/SDK según PROJECT_PROFILE. Comandos = docs/VERIFICACION.md
+# Secretos: Settings → CI/CD → Variables (nunca aquí).
+#
+# Política CI (Código Germinación):
+#   MR + rama default → format + analyze + test
+#   solo rama default → build artefacto arm64
+#   rules/RLS Firestore/Supabase → local (Fase 2D); job CI opcional por stack, no aquí
+
+stages:
+  - verify
+  - build
+  - publish
+
+variables:
+  FLUTTER_VERSION: "stable"
+
+# Ejemplo Flutter — sustituir imagen por la del runner del grupo/proyecto
+.flutter_job:
+  image: ghcr.io/cirruslabs/flutter:${FLUTTER_VERSION}
+  before_script:
+    - flutter --version
+    - flutter pub get
+
+format:
+  extends: .flutter_job
+  stage: verify
+  script:
+    - dart format --set-exit-if-changed .
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+analyze:
+  extends: .flutter_job
+  stage: verify
+  script:
+    - flutter analyze
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+# Tests del núcleo (auth/permisos/validaciones). Ver docs/RECETA_MENOS_REWORK.md
+test:
+  extends: .flutter_job
+  stage: verify
+  script:
+    - flutter test
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+# Build solo en default (main): más barato en MR; el teléfono valida el APK
+build_apk:
+  extends: .flutter_job
+  stage: build
+  script:
+    # Preferido: una ABI. Alternativa: --split-per-abi y conservar el artefacto arm64.
+    - flutter build apk --release --target-platform android-arm64
+  artifacts:
+    paths:
+      - build/app/outputs/flutter-apk/*.apk
+    expire_in: 7 days
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+# CD opcional (2.12 / K-06): publicar APK a Storage + PATCH app_config.
+# Descomentar y ajustar. Secretos solo en CI/CD Variables. Ver docs/PUBLISH_APK.md.
+#
+# publish_apk:
+#   extends: .flutter_job
+#   stage: publish
+#   needs: ["build_apk"]
+#   when: manual
+#   script:
+#     # Tras build arm64 verde: subir APK a Storage y PATCH app_config
+#     # (latest_version, version_code, sha256, apk_url).
+#     # Implementación del proyecto: scripts/upload_apk.ps1
+#     # - echo "pwsh scripts/upload_apk.ps1"
+#     - echo "Publicar APK: ver docs/PUBLISH_APK.md (no poner secretos aquí)"
+#   rules:
+#     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+#       when: manual
+
+# rules/RLS en CI: no plantillado; ver docs/CI_CD.md § opcional por stack.
+

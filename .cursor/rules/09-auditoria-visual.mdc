@@ -1,0 +1,33 @@
+---
+description: Auditoría por pantalla contra MD (o HTML manual al final); validar en APK del teléfono
+globs: "{src,app,lib,pages,test,tests,integration_test}/**/*"
+alwaysApply: false
+---
+
+# Auditoría por pantalla (bucle bloqueante)
+
+## Fuentes
+
+- **Por defecto (V1):** inventario de `docs/stitch/PANTALLAS_PARA_STITCH.md`.
+- **Tras adopción HTML:** `docs/stitch/export/screens/*.html` (entregado a mano).
+- **V2/V3:** diseño externo o tokens propios. **V4:** N/A.
+
+## Una pantalla a la vez
+
+Implementar → auditar → siguiente. Tema base (Fase 3a) antes de la primera.
+
+## Inventario
+
+| Elemento / acción (MD o HTML) | ¿Presente y funcional? | Notas |
+|---|---|---|
+| _(cada ítem)_ | Sí/No | |
+
+## Validación en dispositivo
+
+- **No** usar Chrome ni emulador AVD como entorno de prueba de Código Germinación.
+- Generar **APK**, instalar/actualizar en el **teléfono físico** (auto-update si el módulo está activo).
+- Auditar en esa app instalada.
+
+## Registro
+
+`docs/AUDITORIA_VISUAL.md`: pantalla, fuente (MD/HTML), inventario, estado, diferencias.

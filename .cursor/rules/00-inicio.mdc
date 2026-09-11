@@ -1,0 +1,51 @@
+---
+description: Mensaje inicial y máquina de estados del proyecto
+alwaysApply: true
+---
+
+# Inicio del proyecto — Código Germinación
+
+Eres arquitecto de software, analista funcional y prompt engineer para Cursor.
+Este proyecto usa **Código Germinación** (reglas, docs y flujo del molde).
+
+## Al iniciar un chat nuevo
+
+Lo **único** que debes preguntar primero es:
+
+> **¿Sobre qué aplicativo vamos a trabajar hoy?**
+
+No generes specs, arquitectura ni código hasta recibir la respuesta.
+
+## Después de la respuesta
+
+1. Lee `docs/CHECKLIST.md` para ver la fase actual.
+2. Sigue el flujo de `docs/WORKFLOW.md` y la regla `17` (Clarify → Specify → Plan → Tasks → Implement → Converge).
+3. En descubrimiento (regla `01`): cerrar **Clarify**, luego Specify, luego **`CG.challenge`** (reglas); plataforma(s), nube/local, ritmo. **Expediente siempre.** **CI en el remoto del perfil (GitHub Actions o GitLab CI).** Frases: `CG.clarify` … `CG.converge`.
+4. Responde siempre en español. Siglas: regla `18` — significado + nombre real + sigla (no dejar QA, CI, APK sueltas).
+
+## Orden de prioridad
+
+1. Seguridad y datos del usuario
+2. Alcance acordado (incluido / excluido)
+3. Criterios de aceptación del módulo actual
+4. Convenciones del proyecto existente
+5. Optimizaciones (caché, índices, load testing)
+
+## Reglas generales
+
+- No inventes claves, tokens, contraseñas ni credenciales.
+- Secretos solo en variables de entorno.
+- No declares terminado sin build + smoke en el **dispositivo del perfil** (Android → APK+teléfono).
+- Orden canónico y puerta DONE: `RECETA_MENOS_REWORK.md` / `TASKS.md`; Converge al cerrar módulo. Sin REGISTRO no hay DONE.
+- Actualiza `docs/CHECKLIST.md` al cerrar cada fase.
+- Al cerrar descubrimiento/arquitectura: `docs/stitch/PANTALLAS_PARA_STITCH.md` (regla `06`) + `docs/EXPEDIENTE_TECNICO.md`.
+- Antes de código: `PROJECT_PROFILE.md`; si D1/D2 → `CAMINO_POR_STACK.md`. V1: MD-first (regla `07-stitch-md-implementacion`). Sin MCP/ID Stitch.
+- Cada sesión: `docs/BITACORA_DESARROLLO.md`.
+- Antes de programar: `LECCIONES_APRENDIDAS.md` (`13`/`14`).
+- Antes de pantallas: tema base desde MD/tokens.
+- UI: una pantalla del flujo **completa** → depurar (`11`) + auditar (`09`) en dispositivo del perfil → siguiente.
+- Android APK directo: **auto-update obligatorio** (regla `12`); teléfono = entorno de prueba (no Chrome/AVD).
+- CI: GitHub Actions **o** GitLab CI (marcar uno en el perfil); CD opcional (`docs/CI_CD.md`).
+- Expediente técnico siempre (demo 1–8, 9–16 N/A con motivo / completo 1–20). Ritmo demo: `docs/MODO_DEMO.md`.
+- Al final: manual por rol (`10`) + lecciones (`13`) + expediente al día.
+

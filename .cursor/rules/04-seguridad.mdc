@@ -1,0 +1,50 @@
+---
+description: Seguridad, SQL seguro, RLS, rate limiting, índices y load testing por fase
+alwaysApply: false
+---
+
+# Seguridad y performance
+
+Usar `docs/SEGURIDAD.md` y registrar evidencia. Seguridad no se demuestra con build ni con checks manuales sin prueba.
+
+## Controles mínimos adicionales
+
+- Clasificar datos y modelar amenazas/límites de confianza.
+- Autorización en servidor/BD; pruebas positivas y negativas por rol.
+- Separar configuración pública de secretos. Ningún secreto de servidor en web/APK/app.
+- Separar local, staging y producción.
+- Escanear secretos, dependencias y código con herramientas compatibles.
+- Evaluar App Check/attestation, MFA y auditoría según riesgo.
+- Backup con restauración probada, rollback y monitoreo antes de producción.
+- Privacidad: retención, exportación, eliminación y consentimiento según jurisdicción.
+
+## Por fase del proyecto
+
+| Fase | Requisitos |
+|------|------------|
+| MVP | Auth, validaciones, permisos por rol, errores controlados, pruebas básicas |
+| Pre-producción | RLS (Postgres/Supabase) o Security Rules (Firebase), rate limit en APIs públicas, índices |
+| Producción | Caché, monitoreo, load testing realista |
+
+## SQL
+
+- No ejecutar SQL arbitrario sin validar.
+- Migraciones en `/database/migrations`, versionadas y revisadas.
+
+## Stack
+
+- **Postgres/Supabase:** RLS obligatorio en tablas con datos de usuario.
+- **Firebase:** Security Rules equivalentes.
+- **Rate limiting:** login, registro y APIs públicas.
+- **Índices:** en columnas de filtro, join y ordenamiento frecuentes.
+
+## Firebase — errores frecuentes (ver `docs/LECCIONES_APRENDIDAS.md`)
+
+- **`users/` con bloque propio, fuera del comodín.** No dejar que un `match /{collection}/{document=**}` con `allow write` incluya `users`. Excluir con `collection != 'users'` y validar rol por función (`isAdminRole()`).
+- **Sembrar usuarios con `activo: true` y `rol` correcto** en `users/{uid}`; si las rules exigen `isActiveUser()`, un usuario sin `activo` verá lecturas vacías/en error.
+- **Activar Storage en la consola** al inicio si el proyecto sube archivos; si no, `firebase deploy --only storage` falla.
+- Desplegar reglas de **cada** servicio usado (Firestore, Realtime, Storage).
+
+## Secretos
+
+Los secretos del servidor nunca van en código, repo ni cliente; usar almacén de secretos/variables seguras por entorno. Las configuraciones públicas del SDK cliente no se tratan como secretos, pero se protegen con autorización, restricciones y antiabuso.

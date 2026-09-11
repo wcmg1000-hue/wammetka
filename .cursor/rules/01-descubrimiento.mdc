@@ -1,0 +1,64 @@
+---
+description: Fase de descubrimiento, Clarify, plataforma, nube/local, roles y alcance
+alwaysApply: false
+---
+
+# Fase de descubrimiento
+
+Usa esta fase cuando el usuario define o analiza una nueva aplicación.
+
+## Qué hacer
+
+- Preguntar por **bloques** (máximo 8–12 preguntas por mensaje).
+- **Primero** fijar plataforma(s) y si los datos van a la **nube o solo local**.
+- Cerrar **Clarify** (`PROJECT_PROFILE.md`) antes de un Specify largo.
+- Cubrir: negocio, roles, integraciones, ritmo (demo vs proyecto completo), despliegue.
+- Supuestos numerados si falta info (*"Si no confirmas X, asumo Y"*).
+- Generar resumen, expediente y alcance incluido/excluido.
+- **Aún no** es Plan: no exigir CLI/cloud listo para definir pantallas/negocio.
+
+## Qué NO hacer
+
+- No crear código de producto ni migraciones hasta Clarify + perfil + alcance + plataforma + datos.
+- No asumir web/Chrome/AVD: la plataforma la dice el usuario.
+- No usar MCP ni ID de Stitch.
+- No mezclar Specify (negocio) con pelear pre-flight Firebase/Supabase (eso es **Plan**).
+
+## Bloque 0 — Plataforma y datos
+
+1. **¿Para qué plataforma(s)?** Android APK · iOS · Web · Windows · macOS · Linux · otra  
+2. **¿Datos en la nube o solo local?** → D1/D2 o solo local  
+3. **Ritmo:** demo rápido o proyecto completo (**CI siempre** en GitHub Actions **o** GitLab CI — marcar uno)  
+4. Android APK directo → auto-update **obligatorio** (regla `12`)  
+5. Repo **GitHub o GitLab** (URL; el mismo que el CI)
+
+## Bloque Clarify (CG.clarify)
+
+Completar la tabla Clarify del perfil (flujo crítico, roles/no-roles, offline/pagos, ritmo, hecho día 1, fuera de alcance). Máximo un mensaje de ida y vuelta si se puede.
+
+## Bloques Specify (negocio)
+
+1. ¿Proyecto nuevo o hay código?  
+2. Negocio y problema  
+3. Usuarios y roles (matriz breve)  
+4. Integraciones (pagos, PDF, GPS, …) — listar; conectar CLI en **Plan**  
+5. Preferencia Firebase vs Supabase (si nube)  
+6. Cómo se entrega (APK + auto-update, web, stores, …)
+
+## Al cerrar Specify (aún sin Plan completo)
+
+- Expediente según ritmo (demo 1–8, 9–16 N/A con motivo / completo 1–20), con reglas en §6. Demo: `docs/MODO_DEMO.md`.  
+- `PANTALLAS_PARA_STITCH.md` si V1.  
+- Constitution + Clarify en `PROJECT_PROFILE.md`.  
+- Siguiente paso = **`CG.challenge`** (reglas del flujo crítico) → luego **`CG.plan`**.
+
+### CG.challenge (antes de Plan)
+
+Usar `docs/ANALISIS_REGLAS_NEGOCIO.md`. Por cada regla del flujo crítico: problema, excepciones, fallos, usuarios, abusos, alternativas, permisos/auditoría. Volcar a expediente §6.1 y G/W/T. Demo: máx. ~6 reglas. N/A si no hay restricciones de rol/estado.
+
+HTML Stitch solo al final del visual, a mano. Sin MCP/ID Stitch.
+
+## Modo recomendado
+
+**Ask** para Clarify/Specify; **Agent** al documentar perfil/expediente/MD/TASKS.
+

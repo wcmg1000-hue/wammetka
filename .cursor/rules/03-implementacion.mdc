@@ -1,0 +1,70 @@
+---
+description: Implementación por fases, Definition of Done, APK en teléfono antes de avanzar
+globs: "{src,app,lib,pages,test,tests,integration_test}/**/*"
+alwaysApply: false
+---
+
+# Fase de implementación
+
+## Selección obligatoria de ruta
+
+Leer `docs/PROJECT_PROFILE.md` antes de aplicar puertas. Stitch solo aplica a V1. Datos D1–D4 según `CAMINO_POR_STACK.md`.
+
+Leer `docs/TASKS.md` y `docs/RECETA_MENOS_REWORK.md`: implementar **solo** la siguiente `TODO`. Rebanada = T01–T0n del flujo crítico (UI→auth→dato→teléfono, sin mocks permanentes).
+
+**Puerta DONE (fail closed):** analyze OK · **3 tests núcleo** desde T05/T06 (`QA_MINIMO.md`) · smoke del DoD en el **dispositivo del perfil** · **fila PASS en `docs/evidencias/REGISTRO.md`**. Sin REGISTRO **no** hay `DONE`.
+
+Al cerrar módulo/rebanada: **CG.converge** (G/W/T con `test` o `smoke` + regresión corta). Patrón nuevo → ficha en lecciones.
+
+## Puertas condicionales
+
+### Fuente visual
+- V1: `PANTALLAS_PARA_STITCH.md` → implementar desde el MD. HTML manual solo al **final** del visual si el usuario lo entrega. Sin MCP/ID Stitch.
+- V2: diseño externo · V3: tokens · V4: N/A
+
+### Datos
+- `STACK_DB.md` + `CAMINO_POR_STACK.md` (D1/D2)
+- `.env` desde `.env.example`
+- Migraciones/rules/RLS según stack
+
+### Entorno de prueba (según perfil)
+- Android APK directo → teléfono físico + auto-update (regla `12`). **No** Chrome/AVD como estándar.
+- Web → navegador; desktop → build nativo; V4 → smoke de contrato documentado.
+- Local/emulador de BD = schema y rules; **no** sustituye la prueba de producto.
+
+## Fase 3a — Tema base
+
+| Ruta | Fuente del tema |
+|---|---|
+| V1 (por defecto) | Tokens desde MD + specs |
+| V1 (HTML adoptado al final) | HTML / `DESIGN.md` si existe |
+| V2 / V3 | Diseño externo o tokens propios |
+
+Ninguna pantalla sin tema base.
+
+## Un módulo / una tarea a la vez
+
+- Tomar una fila `TASKS.md` → `DOING` → `DONE` + evidencia.
+- Specs/expediente del módulo; UI V1 desde el MD (HTML solo si ya se adoptó).
+- Datos: `STACK_DB` + camino por stack.
+- Lecciones del stack (`13`/`14`).
+- Constitution del `PROJECT_PROFILE` si el chat es largo.
+- Checklist + Converge + fila en `BITACORA_DESARROLLO.md` al cerrar sesión/módulo.
+- Commit de checkpoint por tarea o pantalla.
+
+## Definition of Done — NO terminado si
+
+- Falla analyze, faltan tests del núcleo (desde rebanada) o **falta fila PASS en REGISTRO** (fail closed: sin REGISTRO no hay DONE)
+- No se validó el DoD en el **dispositivo del perfil**
+- Falta función, navegación o G/W/T del módulo
+- V1: inventario del MD incompleto
+- Sync cloud silencioso / `catch` vacío si hay nube
+- Seed/smoke del día 1 pendiente cuando hay nube
+- `RenderFlex` / `borderRadius` / EXCEPTION en uso real (Flutter)
+- Auto-update ausente cuando hay canal APK directo
+
+## Regla de oro UI
+
+Tema base → una pantalla del flujo **completa** (dato real) → auditar en dispositivo del perfil → siguiente.  
+Prohibido implementar todo el visual y conectar datos al final.
+

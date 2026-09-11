@@ -1,0 +1,19 @@
+﻿---
+description: CI obligatoria en GitHub Actions o GitLab CI y evidencia reproducible para cada puerta de calidad
+alwaysApply: true
+---
+
+# CI (GitHub o GitLab) y evidencias
+
+- Completar `docs/VERIFICACION.md` con comandos reales (= pipeline). Receta: `docs/RECETA_MENOS_REWORK.md`.
+- Crear **CI en T02** en el remoto del perfil (`PROJECT_PROFILE.md`):
+  - GitLab: `.gitlab-ci.yml` desde `.gitlab-ci.yml.example`
+  - GitHub: `.github/workflows/ci.yml`
+  **format** + **analyze** + **test** en PR/MR y default; **build arm64** solo en default. Rules/RLS no en YAML base (`CI_CD.md`).
+- Tests del núcleo: **3 mínimos en T05/T06** (auth, no-puede, validación — `QA_MINIMO.md`); no cerrar rebanada con suite vacía.
+- Plugin GitHub y/o GitLab según elección, para pipelines, PR/MR y jobs fallidos.
+- No marcar PASS/DONE sin exit code observado + fila en `docs/evidencias/REGISTRO.md` (+ URL pipeline si aplica). **Fail closed:** sin REGISTRO no hay DONE.
+- Si CI falla, corregir el módulo actual antes de avanzar.
+- **CD** opcional con aprobación (`docs/PUBLISH_APK.md`); no sustituye CI ni prueba en teléfono.
+- Excepción: riesgo, responsable y fecha; no desactivar controles para obtener verde.
+

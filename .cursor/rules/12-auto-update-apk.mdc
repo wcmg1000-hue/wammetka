@@ -1,0 +1,92 @@
+---
+description: Auto-actualización de APK en Android al abrir la app; comparar versionCode y verificar SHA-256
+globs: "{src,app,lib,pages,test,tests,integration_test}/**/*"
+alwaysApply: false
+---
+
+# Auto-actualización de APK (obligatoria si hay APK directo)
+
+**Política de Código Germinación:** si el proyecto incluye Android con distribución por **APK fuera de Google Play**, este módulo es **obligatorio**. Si no hay ese canal (solo Play, solo iOS, solo web, solo desktop), marcar `N/A` en checklist.
+
+Permite que la app se actualice sola al abrirse: consulta el `versionCode` remoto, lo compara con el instalado y, si hay uno mayor, descarga el APK en segundo plano, verifica SHA-256 y lo abre para instalar.
+
+## Advertencias obligatorias (decirlo al usuario)
+
+- **Solo Android.** iOS no permite instalar apps fuera de la App Store → desactivar este flujo en iOS (no-op).
+- **NO compatible con Google Play.** Play prohíbe auto-actualizar por APK. Usar **solo** si la app se distribuye por APK directo (fuera de la tienda). Si se publica en Play, desactivar el módulo.
+- **Firma:** el APK nuevo debe estar firmado con la **misma keystore** que el instalado, o Android rechaza la actualización. Keystore fuera del repo (`.gitignore`).
+
+## Fuente de la versión y del APK (según stack)
+
+**Fuente de verdad:** entero **`versionCode`** de Android (`PackageInfo.buildNumber` vía `package_info_plus`) frente a:
+
+- **Supabase (D1):** `app_config.version_code`
+- **Firebase (D2):** Remote Config `version_code`
+
+El semver `latest_version` es **solo fallback** si `version_code` remoto es null (filas antiguas). No comparar semver cuando hay `version_code`.
+
+### Firebase (D2)
+
+- **Campos:** Remote Config (`version_code`, `latest_version`, `apk_url`, `sha256`, opcional `changelog`, `force_update`).
+- **APK:** Firebase Storage (URL de descarga).
+
+### Supabase (D1)
+
+- **Campos:** fila singleton `app_config` (`version_code`, `latest_version`, `apk_url`, `sha256`, `force_update`, `changelog`).
+- **APK:** bucket Storage `apk` (path `releases/…`), URL pública verificable.
+- **Publicación:** `flutter build apk --release --target-platform android-arm64` (o `--split-per-abi` y conservar **arm64**) → subir APK → PATCH `app_config` con `version`, `version_code`, `sha256`, `apk_url`. Ver `docs/PUBLISH_APK.md`, ficha **2.6** en `LECCIONES_APRENDIDAS.md` y `docs/specs/MODULO_ACTUALIZACION.md`.
+
+El flujo en la app (`package_info_plus` + `dio` + hash + `open_filex` + permisos) es el mismo; solo cambia de dónde se leen versión, URL y hash.
+
+## Paquetes
+
+| Función | Paquete |
+|---------|---------|
+| Versión instalada (`version` + `buildNumber`) | `package_info_plus` |
+| Config remota | `firebase_remote_config` (D2) o cliente Supabase (D1) |
+| Descargar APK | `dio` (con progreso) |
+| SHA-256 | `crypto` (hex **minúsculas**) |
+| Instalar/abrir APK | `open_filex` |
+| Permisos | `permission_handler` |
+
+## Flujo al abrir la app
+
+1. Obtener `buildNumber` (`versionCode`) y semver instalados con `package_info_plus`.
+2. Leer remoto: `version_code`, `apk_url`, `sha256` (y `latest_version` por si hay fallback).
+3. Comparar **enteros** `buildNumber` vs `version_code`. Si `version_code` es null → fallback semver `latest_version` (1.2.0 < 1.10.0), no como texto.
+4. Si hay versión nueva:
+   - Descargar el APK con `dio` en **segundo plano**, mostrando progreso (no bloquear la UI — ver regla `05-background-ui`).
+   - Al terminar, calcular SHA-256 hex **minúsculas** del archivo. Si el `sha256` remoto **no está vacío** y no coincide: **borrar el archivo, no instalar**, mensaje de error en español. Si `sha256` está vacío: omitir verificación (filas antiguas).
+   - Abrir el archivo con `open_filex` para lanzar el instalador del sistema.
+   - Si `force_update` es true, insistir hasta actualizar; si no, permitir "más tarde".
+5. Si no hay nueva versión, continuar normal.
+
+## Permisos Android
+
+En `AndroidManifest.xml`:
+- `REQUEST_INSTALL_PACKAGES`
+- Internet (ya suele estar)
+- Almacenamiento según versión de Android (scoped storage)
+
+En tiempo de ejecución (Android 8+): pedir permiso de "instalar apps de fuentes desconocidas" con `permission_handler`.
+
+## Buenas prácticas
+
+- Guardar el APK en almacenamiento temporal/cache.
+- Manejar errores: sin internet, descarga incompleta, permiso denegado, **hash distinto** → mensaje claro en español y reintento (hash: borrar archivo).
+- No reventar la app si Remote Config / `app_config` falla: continuar con la versión actual.
+- Registrar el módulo en su spec: `docs/specs/MODULO_ACTUALIZACION.md`.
+
+## DoD del módulo
+
+- Compara **`versionCode` / `buildNumber`** (semver solo si `version_code` es null).
+- Tras descargar, verifica SHA-256 si el remoto no está vacío; mismatch → borrar y no instalar.
+- Descarga en background sin congelar la UI.
+- Instala con `open_filex` tras permisos concedidos.
+- Desactivado o no-op en iOS.
+- Documentado que no es apto para Google Play. Misma keystore.
+
+## Modo recomendado
+
+**Agent** — configurar paquetes, permisos; publicar APK y probar auto-update en el **teléfono físico**.
+

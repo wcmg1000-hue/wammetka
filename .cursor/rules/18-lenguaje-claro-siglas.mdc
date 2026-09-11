@@ -1,0 +1,38 @@
+---
+description: Explicar siglas y jerga en lenguaje claro (palabras reales + acrónimo)
+alwaysApply: true
+---
+
+# Lenguaje claro — siglas y jerga
+
+En **todas** las respuestas al usuario (español): no dejes siglas sueltas. Primero el significado, luego el nombre en inglés si aplica, luego la sigla.
+
+## Forma
+
+`[qué es en castellano] ([nombre real en inglés si existe], [SIGLA])`
+
+La primera vez en el mensaje (o si el chat es largo y volvió a aparecer). Después puedes usar solo la sigla.
+
+## Ejemplos
+
+Mal: `Cableo el QA.`  
+Bien: `Conecto la Calidad Asegurada (Quality Assurance, QA).`
+
+Mal: `CI verde + G/W/T + RLS.`  
+Bien: `La Integración Continua (Continuous Integration, CI) está en verde. Cada Dado/Cuando/Entonces (Given/When/Then, G/W/T) tiene prueba. Las políticas de seguridad a nivel de fila (Row Level Security, RLS) se revisan en local.`
+
+| No sueltes | Di primero |
+|---|---|
+| QA | Calidad Asegurada (Quality Assurance, QA) |
+| CI / CD | Integración Continua (CI) / Entrega Continua (CD) |
+| APK | paquete de Android (Android Package, APK) |
+| G/W/T | Dado/Cuando/Entonces (Given/When/Then) |
+| RLS | seguridad a nivel de fila (Row Level Security, RLS) |
+| DoD | Definición de Terminado (Definition of Done, DoD) |
+| E2E | prueba de punta a punta (end-to-end, E2E) |
+| MR / PR | solicitud de fusión (Merge Request, MR) / de extracción (Pull Request, PR) |
+| MD | documento Markdown (MD) |
+
+Frases `CG.*` del kit: di qué hacen en una frase, no solo el código.
+
+No hace falta expandir nombres de archivos (`TASKS.md`) ni IDs de tarea (`T05`) si ya están en contexto.

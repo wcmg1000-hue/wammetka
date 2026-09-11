@@ -1,0 +1,67 @@
+# Ejemplo GitHub Actions (Código Germinación 2.12).
+# Usar en T02 SI el remoto del perfil es GitHub. Si es GitLab, usar `.gitlab-ci.yml`.
+# Comandos = docs/VERIFICACION.md. Secretos: Settings → Secrets and variables → Actions (nunca aquí).
+#
+# Política CI:
+#   PR + rama default → format + analyze + test
+#   solo rama default → build APK arm64
+#   rules/RLS → local (Fase 2D)
+
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.47.2"
+          channel: stable
+          cache: true
+      - run: flutter --version
+      - run: flutter pub get
+      - run: dart format --set-exit-if-changed lib test
+      - run: flutter analyze
+      - run: flutter test
+
+  build_apk:
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.47.2"
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      # Preferido: una ABI. Alternativa: --split-per-abi y conservar el artefacto arm64.
+      - run: flutter build apk --release --target-platform android-arm64
+      - uses: actions/upload-artifact@v4
+        with:
+          name: app-arm64-release
+          path: build/app/outputs/flutter-apk/*.apk
+
+  # CD opcional (2.12 / K-06): publicar APK a Storage + PATCH app_config.
+  # Misma intención que el job manual de GitLab. Ver docs/PUBLISH_APK.md.
+  # Secretos solo en GitHub Actions secrets — nunca aquí.
+  #
+  # publish_apk:
+  #   if: github.event_name == 'workflow_dispatch'
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Upload APK and patch app_config
+  #       run: |
+  #         echo "Invocar scripts/upload_apk.ps1 (latest_version, version_code, sha256, apk_url)"
+  #         echo "Ver docs/PUBLISH_APK.md"
+

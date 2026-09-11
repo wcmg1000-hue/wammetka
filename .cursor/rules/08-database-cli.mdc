@@ -1,0 +1,98 @@
+﻿---
+description: Conectar y ejecutar base de datos por CLI/MCP antes de lógica de datos; migraciones y seguridad por stack
+alwaysApply: false
+---
+
+# Base de datos — CLI y MCP
+
+## Regla local-first
+
+Leer la ruta D1–D5 de `docs/PROJECT_PROFILE.md`. D5 omite esta regla. En D1–D4 desarrollar y probar primero en Supabase local, Firebase Emulator Suite, contenedor SQL o sandbox/mock. Producción nunca es entorno de pruebas.
+
+Si D1 o D2: seguir el camino de `docs/database/CAMINO_POR_STACK.md` (herramientas, pre-flight y anti-patrones del stack elegido) además de `CONECTAR_BD.md`.
+
+Antes de staging deben pasar migraciones desde cero, seed sintético, lint y pruebas positivas/negativas de permisos. Producción requiere aprobación explícita, backup/restauración y rollback.
+
+## Puerta condicional antes de lógica con datos reales
+
+No implementar modelos, repositorios ni CRUD con datos reales hasta:
+
+1. Stack documentado en `docs/database/STACK_DB.md`
+2. `.env` configurado desde `.env.example` (secretos nunca en el repo)
+3. CLI conectado o MCP activo según el stack
+4. Migraciones versionadas aplicadas localmente desde cero
+5. **RLS** o **Security Rules** probadas localmente con casos permitidos y denegados
+
+Si falta algo, seguir `docs/database/CONECTAR_BD.md` para el stack elegido.
+
+## Por stack
+
+### Firebase
+- **Login por defecto (SIEMPRE):** `firebase login` — abre el navegador para elegir cuenta Google y contraseña. Si hay sesión previa que falla: `firebase login --reauth`.
+- **El código OAuth va en la terminal**, nunca pegado en el chat (es de un solo uso). Autenticar el CLI en una terminal propia **antes** de empezar; verificar con `firebase projects:list`.
+- **Prohibido** usar service-account JSON o pedir credenciales pegadas en el chat, salvo que el usuario lo pida explícitamente.
+- **Proyecto nuevo (greenfield) = base de datos nueva:** cuando el usuario indique que es un proyecto nuevo, crear también un proyecto Firebase nuevo y su base de datos:
+  - `firebase projects:create <id-unico>` (o `firebase projects:list` para reusar)
+  - `firebase firestore:databases:create "(default)" --location=<region>` (o consola)
+  - Si el CLI falla por permisos/facturación/cuota → **guiar al usuario a crear el proyecto y la base en la consola** de Firebase, luego `firebase use <id>` (fallback, no detener el flujo).
+- `firebase init` (Firestore/Realtime DB, Auth, Rules)
+- Migraciones de datos: colecciones vía código o scripts; rules en `firestore.rules`
+- Deploy: `firebase deploy --only firestore:rules,firestore:indexes`
+
+#### Conectar TODOS los servicios que el proyecto necesite
+
+Al elegir Firebase, revisar los requerimientos del proyecto (descubrimiento Bloque 4) y **conectar cada servicio necesario**, no solo la base de datos:
+
+| Requerimiento del proyecto | Servicio Firebase | Acción |
+|----------------------------|-------------------|--------|
+| Login / usuarios / roles | Authentication | habilitar proveedor + SDK |
+| Datos tipo documento | Cloud Firestore | rules + indexes |
+| Datos en tiempo real | Realtime Database | reglas propias |
+| Subir fotos/archivos | Cloud Storage | reglas de Storage |
+| Web / panel admin | Hosting | `firebase init hosting` + deploy |
+| Notificaciones push | Cloud Messaging (FCM) | token + permisos |
+| Lógica backend | Cloud Functions | `firebase deploy --only functions` |
+| Errores en producción | Crashlytics | SDK |
+| Config remota / flags / versión | Remote Config | (también usado por auto-update APK) |
+
+Reglas:
+- Conectar **todos** los servicios detectados en una sola configuración (`firebase init` con los módulos que apliquen).
+- Desplegar reglas de seguridad de **cada** servicio usado (Firestore, Realtime, Storage).
+- Documentar en `docs/database/STACK_DB.md` qué servicios quedaron conectados.
+- No dejar un servicio requerido a medio conectar; si el proyecto lo necesita, debe quedar funcional.
+
+### Supabase (recomendado: CLI + MCP)
+- CLI: `supabase login` → `supabase link --project-ref <ref>`
+- MCP: servidor `supabase` en `.cursor/mcp.json` (OAuth una vez)
+- Iterar SQL: MCP `execute_sql` o `supabase db query`
+- Migraciones: `supabase migration new <nombre>` → SQL en `supabase/migrations/`
+- Aplicar: `supabase db push` (remoto) o `supabase db reset` (local)
+- RLS obligatorio en tablas `public`
+- Revisar: MCP `get_advisors` o `supabase db advisors`
+
+### MySQL
+- `.env` con `DATABASE_URL=mysql://user:pass@host:3306/db`
+- ORM: Prisma (`npx prisma migrate dev`) o Drizzle (`npx drizzle-kit push`)
+- Alternativa: `mysql -h HOST -u USER -p DB < database/migrations/001.sql`
+- Índices en columnas de filtro y join frecuentes
+
+## Build temprano (Flutter + Firebase)
+
+- Si el stack es Flutter con Firebase, **compilar el APK temprano** para detectar conflictos de toolchain (Gradle/AGP, `firebase_storage`, plugins transitivos como `jni`/`path_provider_android`).
+- `compileSdk = flutter.compileSdkVersion` (no hardcodear). Cuando un plugin transitivo rompe el build, fijar `dependency_overrides` en `pubspec.yaml` y **documentar el porqué**.
+- Detalle en `docs/LECCIONES_APRENDIDAS.md` (sección 2).
+
+## Reglas generales
+
+- SQL solo en archivos versionados; no ejecutar SQL arbitrario sin validar
+- Actualizar `docs/database/STACK_DB.md` al conectar
+- Actualizar `docs/CHECKLIST.md` Fase 2D al completar
+
+## Orden respecto al diseño
+
+Datos y diseño son rutas independientes y pueden prepararse en paralelo. Antes de la rebanada vertical solo deben estar completas las puertas aplicables según `PROJECT_PROFILE.md`.
+
+## Modo recomendado
+
+**Agent** — requiere ejecutar CLI/MCP y escribir migraciones.
+

@@ -1,0 +1,46 @@
+---
+description: Antipatrones de UI Flutter que causan crashes/overflow y sus patrones correctos
+globs: **/*.dart
+alwaysApply: false
+---
+
+# Calidad de UI en Flutter (antipatrones a evitar)
+
+Reglas duras extraídas de `docs/LECCIONES_APRENDIDAS.md`. Aplican al escribir/editar código Dart.
+
+## Bordes y radios
+
+- `borderRadius` **solo** con borde uniforme (`Border.all(...)`). **Nunca** `borderRadius` + `Border(left/top/...)` con colores/anchos distintos → excepción `A borderRadius can only be given on borders with uniform colors.` y colapso del render en Android (Impeller).
+- Franja de acento de color en un lado: dibujarla aparte con `Stack` + `Positioned` + `ClipRRect` sobre una tarjeta de borde uniforme. Centralizar la "tarjeta con acento" en **un solo widget**.
+
+## Contenido en `Stack`/grids
+
+- No usar `Ink` como contenedor de contenido dentro de `Stack`/`GridView` (pinta el fondo pero no el contenido → tarjetas en blanco). Usar `Container`/`DecoratedBox` para la superficie y `Material` + `InkWell` solo para el ripple.
+- No poner `DecoratedBox` encima de un `ListTile` (tapa el ink; ficha **1.14**). Superficie de lista = `Material` + `InkWell`.
+
+## Overflow y límites
+
+- Textos que crecen: `maxLines` + `overflow: TextOverflow.ellipsis` (o `Flexible`/`Expanded`).
+- Filas que compiten por ancho: `Expanded`/`Flexible`, o `Wrap` si deben bajar de línea.
+- Números grandes en tarjetas: `FittedBox`.
+- Contenido alto: `SingleChildScrollView` / listas con scroll.
+- No colocar widgets "de tarjeta"/KPI directamente en un `Row` sin `Expanded`/`SizedBox` (evita `BoxConstraints forces an infinite width`).
+
+## Tipos (Dart)
+
+- **Nunca** pasar `AsyncValue`/`List`/`Map` **sin genéricos** entre métodos/widgets. Un `dynamic` silencioso revienta con un cast en runtime (ej. `List<dynamic>` → `List<DropdownMenuItem<String>>?`).
+- `DropdownButtonFormField<T>`: `items` debe ser literalmente `List<DropdownMenuItem<T>>`; tipar la fuente de datos.
+- Preferir `strict-raw-types` en `analysis_options.yaml`.
+
+## `async` + `context` + navegación
+
+- Subidas de imagen/archivo: **opcionales y no bloqueantes**. Crear el registro primero; el upload en su propio `try/catch`; si falla, dejar el registro y avisar.
+- Capturar `ScaffoldMessenger`/`GoRouter` en variables locales **antes** de cualquier `await`/navegación. No usar `context` tras `replace`/`pop`. `setState` final solo tras `if (mounted)`.
+
+## Tras refactor de widget compartido
+
+- Listar todos los usos (grep) y verificarlos (grid, lista, con/sin acento, con/sin `onTap`).
+- Correr `flutter analyze` y validar en **APK instalado en el teléfono** (no Chrome ni AVD).
+- Revisar la consola buscando `EXCEPTION` / `overflowed` / `borderRadius`.
+
+Detalle y patrones completos en `docs/LECCIONES_APRENDIDAS.md`.

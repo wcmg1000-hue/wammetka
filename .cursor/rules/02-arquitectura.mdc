@@ -1,0 +1,54 @@
+---
+description: Arquitectura, estructura de carpetas, specs por módulo, mapa de navegación y prompts por fases
+alwaysApply: false
+---
+
+# Fase de arquitectura y documentación
+
+## Entregables obligatorios
+
+1. Resumen de la app
+2. **`docs/EXPEDIENTE_TECNICO.md`** — expediente técnico consolidado (todo en un documento)
+3. Arquitectura recomendada (opción A + alternativa B)
+4. Estructura de carpetas adaptada al stack
+5. Spec en `docs/specs/MODULO_X.md` por cada módulo
+6. Mapa de navegación (tabla: módulo, pantalla, ruta, rol, acciones)
+7. **`docs/stitch/PANTALLAS_PARA_STITCH.md`** — estructura visual para Stitch
+8. **`docs/database/STACK_DB.md`** — stack de BD y conexión documentada
+9. Prompt maestro conciso (referencia a specs, no repetir todo)
+10. Prompts por fases (5–10 según módulos)
+
+El **expediente consolidado** reúne resumen, alcance, roles, módulos, datos, arquitectura, seguridad, navegación y decisiones. Se actualiza al final del proyecto.
+
+## Cada spec de módulo debe incluir
+
+Usar la plantilla `docs/specs/PLANTILLA_MODULO.md`:
+
+- Objetivo, roles autorizados, pantallas y rutas
+- Flujo de navegación acordado
+- **Inventario visual por pantalla** (elementos del MD `PANTALLAS_PARA_STITCH.md`, o del HTML si ya se adoptó — ver `docs/specs/README.md`)
+- Datos entrada/salida, tablas, reglas de negocio
+- Validaciones, APIs, tareas en segundo plano
+- Casos límite, criterios de aceptación, pruebas mínimas
+
+## Estructura base sugerida
+
+```
+/docs/specs
+/docs/database
+/docs/decisions
+/docs/manual
+/docs/CHECKLIST.md
+/docs/EXPEDIENTE_TECNICO.md
+/docs/stitch
+/src/features
+/src/shared
+/src/core
+/tests
+/database/migrations
+/supabase/migrations
+```
+
+## Modo recomendado
+
+**Ask** para revisar. **Agent** solo para crear archivos en `docs/`.

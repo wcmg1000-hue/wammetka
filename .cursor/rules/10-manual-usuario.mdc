@@ -1,0 +1,54 @@
+---
+description: Manual de uso por rol con pasos detallados y capturas, generado al final del proyecto
+alwaysApply: false
+---
+
+# Manual de uso por rol
+
+Al **final del proyecto** (cuando el usuario pida "crear el manual"), generar un manual por cada rol
+en `docs/manual/`, un archivo por rol (ej.: `MANUAL_MESERO.md`, `MANUAL_COCINA.md`, `MANUAL_ADMIN.md`).
+
+## Contenido por rol
+
+Para cada función que el rol puede hacer, describir el paso a paso real, por ejemplo:
+
+> **Cómo ingresar un pedido**
+> Desde el menú lateral, en el apartado **Pedidos**, seleccionamos **Nuevo pedido**,
+> luego seleccionamos el cliente, llenamos la fecha de entrega, seleccionamos los items,
+> validamos el total y presionamos **Guardar**.
+> ![Nuevo pedido](capturas/mesero-nuevo-pedido.png)
+
+Cada función debe incluir:
+- Título de la acción
+- Pasos numerados o en prosa clara, con nombres reales de menús y botones
+- Captura de pantalla de la acción
+
+## Capturas de pantalla (automáticas)
+
+Método por defecto: **capturas automáticas** con pruebas.
+- **Flutter:** `integration_test` + `flutter test` con captura, o `flutter screenshot`; guardar en `docs/manual/capturas/`.
+- **Web/React:** Playwright (`page.screenshot`) sobre las rutas de cada función.
+
+Requisitos: la app debe compilar y correr (emulador/dispositivo/navegador).
+
+**Fallback obligatorio:** si la captura automática falla o no hay entorno para ejecutarla,
+insertar un marcador `[CAPTURA: <descripción>]` en el manual y listar las capturas pendientes,
+para que el usuario las agregue. El manual nunca queda bloqueado.
+
+## Estructura
+
+```
+docs/manual/
+├── MANUAL_<ROL>.md      ← uno por rol
+└── capturas/            ← imágenes (auto o agregadas por el usuario)
+```
+
+## Alcance
+
+- Cubrir **todas** las funciones del rol según sus specs y el mapa de navegación.
+- Lenguaje simple, para el usuario final (no técnico).
+- Español.
+
+## Modo recomendado
+
+**Agent** — ejecutar pruebas de captura y escribir los manuales.

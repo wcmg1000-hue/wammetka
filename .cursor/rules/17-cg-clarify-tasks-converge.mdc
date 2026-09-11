@@ -1,0 +1,50 @@
+---
+description: Clarify, Specify, Challenge de reglas, Plan, Tasks, Implement, Converge
+alwaysApply: true
+---
+
+# Clarify · Challenge · Tasks · Converge (Código Germinación)
+
+Aceleradores livianos. **No** sustituyen expediente, CI ni dispositivo del perfil.
+
+## Orden obligatorio
+
+1. **CG.clarify** — tabla Clarify en `docs/PROJECT_PROFILE.md` (máx. ~6 respuestas).  
+2. **CG.specify** — negocio, expediente, MD pantallas. **Sin** bloquear por CLI/cloud. Ritmo demo: `docs/MODO_DEMO.md` (expediente 1–8).  
+3. **CG.challenge** — cuestionar reglas del flujo crítico (`docs/ANALISIS_REGLAS_NEGOCIO.md` → expediente §6.1). Antes de Plan.  
+4. **CG.plan** — perfil/stack, pre-flight, generar/actualizar `docs/TASKS.md`.  
+5. **CG.implement** — **solo** la siguiente fila `TODO` (o el ID pedido). **No** marcar `DONE` si falta fila PASS en `docs/evidencias/REGISTRO.md` (fail closed).  
+6. **CG.converge** — checklist Converge de `TASKS.md` al cerrar módulo/rebanada.
+
+## Tareas atómicas
+
+- Fuente: `TASKS.md` + orden/DONE en `RECETA_MENOS_REWORK.md`.
+- Demo: T01–T07; DoD en **dispositivo del perfil**. Una `DOING`.
+- Orden rebanada: T01 scaffold → T02 CI (remoto del perfil) → seed/smoke → auth+tests → flujo → auto-update si APK.
+- `DONE` (fail closed): analyze · tests núcleo (desde rebanada) · smoke dispositivo · **REGISTRO obligatorio**. Sin REGISTRO → no DONE.
+- Specify: G/W/T del flujo crítico; Challenge: excepciones de reglas antes de Plan profundo.
+- QA mínimo (`docs/QA_MINIMO.md`): 3 tests núcleo en T05/T06; cada G/W/T con `test` o `smoke`; regresión corta al Converge.
+
+## Challenge (reglas de negocio)
+
+- Rol: Analista Crítico (plantilla en `ANALISIS_REGLAS_NEGOCIO.md`).
+- Demo: solo flujo crítico, máx. ~6 reglas. Completo: por módulo con restricciones nuevas.
+- Salida: tabla expediente §6.1 + G/W/T de excepción/abuso si aplica.
+- No inventar reglas nuevas sin acuerdo; cuestionar las ya planteadas.
+
+## Converge (~10 min, incl. regresión corta)
+
+No avanzar al siguiente módulo si falla Converge:
+
+- Alcance del módulo navegable por el rol  
+- Sin Given/When/Then huérfanos: cada uno tiene `test` o `smoke` (`QA_MINIMO.md`)  
+- Sin placeholders  
+- Analyze + 3 tests núcleo + CI + dispositivo OK  
+- Regresión corta (8–12) al cerrar módulo  
+- CHECKLIST + **REGISTRO** + bitácora al día  
+- Error típico nuevo → ficha en `LECCIONES_APRENDIDAS.md`
+
+## Frases del usuario
+
+Si el usuario escribe `CG.clarify` / `CG.specify` / `CG.challenge` / `CG.plan` / `CG.tasks` / `CG.implement` / `CG.converge`, ejecutar ese paso y no saltar al siguiente sin puerta cumplida.
+
