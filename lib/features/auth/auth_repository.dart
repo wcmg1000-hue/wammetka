@@ -111,6 +111,28 @@ class AuthRepository {
     await client.auth.signOut();
   }
 
+  Future<AppProfile> syncOwnProfile() async {
+    final client = _client;
+    if (client == null) {
+      throw const AuthAppException(kAuthMissingConfigMessage);
+    }
+    final userId = client.auth.currentUser?.id;
+    if (userId == null) {
+      throw const AuthAppException(kAuthFailedMessage);
+    }
+    try {
+      await client
+          .from('profiles')
+          .update(<String, dynamic>{'telefono': '3001234567'})
+          .eq('id', userId);
+      return await _loadProfile(client, userId);
+    } on AuthAppException {
+      rethrow;
+    } catch (_) {
+      throw const AuthAppException(kAuthOfflineMessage);
+    }
+  }
+
   Future<AppProfile> _loadProfile(SupabaseClient client, String userId) async {
     final row = await client
         .from('profiles')

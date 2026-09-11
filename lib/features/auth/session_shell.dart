@@ -3,14 +3,48 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../theme/wammetka_colors.dart';
+import 'auth_errors.dart';
 import 'auth_providers.dart';
 
 /// Cáscara mínima post-login. Catálogo/pedido = T06.
-class SessionShell extends ConsumerWidget {
+class SessionShell extends ConsumerStatefulWidget {
   const SessionShell({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<SessionShell> createState() => _SessionShellState();
+}
+
+class _SessionShellState extends ConsumerState<SessionShell> {
+  bool _busy = false;
+  String? _notice;
+  String? _error;
+
+  Future<void> _guardarPerfil() async {
+    setState(() {
+      _busy = true;
+      _notice = null;
+      _error = null;
+    });
+    try {
+      await ref.read(sessionProvider.notifier).syncOwnProfile();
+      if (!mounted) {
+        return;
+      }
+      setState(() => _notice = 'Perfil guardado');
+    } catch (error) {
+      if (!mounted) {
+        return;
+      }
+      setState(() => _error = mapAuthFailure(error));
+    } finally {
+      if (mounted) {
+        setState(() => _busy = false);
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final profile = ref.watch(sessionProvider);
     final textTheme = Theme.of(context).textTheme;
     final nombre = profile?.nombre ?? 'sesión';
@@ -56,13 +90,48 @@ class SessionShell extends ConsumerWidget {
                 overflow: TextOverflow.ellipsis,
                 style: textTheme.bodyMedium,
               ),
+              if (_notice != null) ...[
+                const SizedBox(height: 12),
+                Text(
+                  _notice!,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: WammetkaColors.success,
+                  ),
+                ),
+              ],
+              if (_error != null) ...[
+                const SizedBox(height: 12),
+                Text(
+                  _error!,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: WammetkaColors.error,
+                  ),
+                ),
+              ],
               const Spacer(),
+              OutlinedButton(
+                onPressed: _busy ? null : _guardarPerfil,
+                child: _busy
+                    ? const SizedBox(
+                        height: 22,
+                        width: 22,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : const Text('Guardar perfil'),
+              ),
+              const SizedBox(height: 12),
               FilledButton(
-                onPressed: () async {
-                  final router = GoRouter.of(context);
-                  await ref.read(sessionProvider.notifier).signOut();
-                  router.go('/login');
-                },
+                onPressed: _busy
+                    ? null
+                    : () async {
+                        final router = GoRouter.of(context);
+                        await ref.read(sessionProvider.notifier).signOut();
+                        router.go('/login');
+                      },
                 child: const Text('Cerrar sesión'),
               ),
             ],

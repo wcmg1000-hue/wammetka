@@ -22,11 +22,11 @@
 
 | ID | Módulo | Tarea (1 acción) | Depende | DoD verificable | Estado | Evidencia |
 |---|---|---|---|---|---|---|
-| T01 | Scaffold | App Flutter corre; tema base; APK arm64 compilable | — | `flutter analyze` exit 0 + APK generado | TODO | Analyze/test/build PASS; **smoke teléfono FAIL** (`adb` vacío). No DONE |
+| T01 | Scaffold | App Flutter corre; tema base; APK arm64 compilable | — | `flutter analyze` exit 0 + APK generado | TODO | APK `entregas/apk/wammetka-v0.1.0+2-arm64.apk` con dart-define. `adb` ve 68486ddd; install USER_RESTRICTED. No DONE |
 | T02 | CI | GitHub Actions: format + analyze + test (+ build arm64 en default) | T01 | Pipeline **PASS** | DONE | https://github.com/wcmg1000-hue/wammetka/actions/runs/34656548482 · verify + build_apk success · `46441d8` |
 | T03 | Datos | Proyecto Supabase Wammetka + migraciones + RLS + seed | T01 | Seed listo; RLS +/− OK en local | TODO | Cloud schema+seed; tokens Auth `''`; GRANT helpers RLS. Docker local N/A. No DONE |
-| T04 | Smoke | 1 escritura cloud desde el teléfono (pedido o perfil) | T03 | Visible en Table Editor | TODO | Bloqueado: sin teléfono |
-| T05 | Auth | Login por rol + **3 tests núcleo** | T03 | Entra/sale + tests auth / no-puede / validación | DOING | Cliente `supabase_flutter` + tests núcleo PASS; login seed PASS (local dart-define). Falta smoke APK+teléfono |
+| T04 | Smoke | 1 escritura cloud desde el teléfono (pedido o perfil) | T03 | Visible en Table Editor | TODO | UI `Guardar perfil` lista; falta instalar APK en el teléfono |
+| T05 | Auth | Login por rol + **3 tests núcleo** | T03 | Entra/sale + tests auth / no-puede / validación | DOING | Tests núcleo + live PASS. APK +2 con URL/anon. Install Xiaomi USER_RESTRICTED. No smoke login. No DONE |
 | T06 | Rebanada | Catálogo + carrito + confirmar + bandeja comercio | T05 | AC-01…AC-10 con dueño; smoke teléfono | TODO | |
 | T07 | Auto-update | `app_config` + SHA-256 + diálogo | T06 | Update en teléfono | TODO | |
 

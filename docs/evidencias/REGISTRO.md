@@ -20,5 +20,10 @@
 | 2026-09-11 | T05 Auth | login seed live | `flutter test test/auth_live_optional_test.dart --dart-define-from-file=dart_defines.local.json` | PASS | staging | `cliente@wammetka.test` + no-puede autoascenso | archivo define gitignored. **T05 no DONE** (falta smoke teléfono) |
 | 2026-09-11 | T02 CI | push origin main | `git push -u origin main` | PASS | GitHub público | `46441d8` | https://github.com/wcmg1000-hue/wammetka |
 | 2026-09-11 | T02 CI | pipeline Actions | workflow `CI` run 1 · jobs `verify` + `build_apk` | PASS | GitHub Actions ubuntu-latest Flutter 3.47.2 | `46441d8` | https://github.com/wcmg1000-hue/wammetka/actions/runs/34656548482 |
+| 2026-09-11 | T05 Auth | build APK arm64 + dart-define | `flutter build apk --release --target-platform android-arm64 --build-name=0.1.0 --build-number=2 --dart-define-from-file=dart_defines.apk.json` | PASS (17.7 MB) | local | `entregas/apk/wammetka-v0.1.0+2-arm64.apk` | defines cliente; sin seed/service_role |
+| 2026-09-11 | T01/T05 | adb devices | `adb devices -l` | PASS — teléfono físico | 68486ddd · sapphire · 23129RA5FL | no emulador | Redmi conectado |
+| 2026-09-11 | T01/T05 | install APK | `adb -s 68486ddd install -r …v0.1.0+2-arm64.apk` | FAIL `INSTALL_FAILED_USER_RESTRICTED` | teléfono | artefacto +2 | Xiaomi canceló/bloqueó USB install. **T01/T05 no DONE** |
+| 2026-09-11 | T05 Auth | smoke login teléfono | no ejecutado | FAIL — APK no instalada | — | — | No se observó login `cliente@wammetka.test` |
+| 2026-09-11 | T04 Smoke | escritura cloud desde dispositivo | no ejecutado | FAIL — APK no instalada | — | botón Guardar perfil en código | **T04 no DONE** |
 
 Solo usar `PASS` cuando el resultado haya sido observado. No guardar secretos ni datos personales.

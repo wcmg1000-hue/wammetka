@@ -52,6 +52,12 @@ class SessionController extends Notifier<AppProfile?> {
     await ref.read(authRepositoryProvider).signOut();
     state = null;
   }
+
+  Future<AppProfile> syncOwnProfile() async {
+    final profile = await ref.read(authRepositoryProvider).syncOwnProfile();
+    state = profile;
+    return profile;
+  }
 }
 
 final sessionProvider = NotifierProvider<SessionController, AppProfile?>(

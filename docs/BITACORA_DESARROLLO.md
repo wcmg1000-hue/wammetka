@@ -11,10 +11,10 @@
 
 | Totales | Valor |
 |---------|-------|
-| Total minutos acumulados | 143 |
-| Total horas (min ÷ 60) | 2.38 |
-| Horas facturables | 2.38 (redondeo a criterio de cobro) |
-| Notas cobro (redondeo, no cobrables) | revisión de tomos + docs CG + T01 + T03 + T05 auth + T02 CI |
+| Total minutos acumulados | 156 |
+| Total horas (min ÷ 60) | 2.60 |
+| Horas facturables | 2.60 (redondeo a criterio de cobro) |
+| Notas cobro (redondeo, no cobrables) | revisión de tomos + docs CG + T01 + T03 + T05 + T02 + APK+2 |
 
 ---
 
@@ -26,6 +26,7 @@
 | 2 | 2026-09-11 | 15:46 | 16:25 | 39 | proyecto completo | Flutter+Supabase | T02 git local; T03 proyecto Supabase + RLS + seed | GitHub create repo 404; sin Docker; sin teléfono | Proyecto cloud nuevo no reutilizado | T02 espera permiso GitHub; T01 smoke teléfono | project-ref wwhyypadkjjbgkmlbpss |
 | 3 | 2026-09-11 | 16:29 | 16:52 | 23 | proyecto completo | Flutter+Supabase | T05 cliente Auth + tests núcleo; arreglo seed tokens + GRANT helpers RLS | `adb` vacío; repo GitHub inexistente; login 500 por tokens NULL luego 42501 is_staff | Una sola DOING (T05); live test sin secretos en git | T01/T02/T05 sin DONE (teléfono / remoto / smoke APK) | REGISTRO T05 analyze/test/live; APK v0.1.0+1 sin redeploy |
 | 4 | 2026-09-11 | 17:55 | 18:12 | 17 | proyecto completo | Flutter+Supabase | T02: repo creado a mano; commit auth; push `main`; Actions verde | Primer HTTPS hung (GCM); retry `GCM_INTERACTIVE=never` | Repo vacío 409 ≠ 404; no force | T01/T05 sin teléfono | `46441d8` · https://github.com/wcmg1000-hue/wammetka/actions/runs/34656548482 |
+| 5 | 2026-09-11 | 18:13 | 18:26 | 13 | proyecto completo | Flutter+Supabase | APK +2 con dart-define cliente; botón Guardar perfil | Xiaomi `INSTALL_FAILED_USER_RESTRICTED` | Teléfono físico no AVD; defines sin seed | T01/T04/T05 esperan aceptar install USB | `entregas/apk/wammetka-v0.1.0+2-arm64.apk` |
 
 \*Modo: `proyecto completo` / `demo rápido` / `solo fix` / `solo docs`
 

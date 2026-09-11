@@ -3,7 +3,7 @@
 Marca `[x]` solo con evidencia observada en `docs/evidencias/REGISTRO.md`. Usa `N/A — motivo` cuando una ruta no aplique.
 
 **Proyecto:** Wammetka  
-**Fase actual:** 3 — Rebanada P0; **T05 DOING** (login real). T02 DONE (CI verde). T01/T03/T05 sin DONE (teléfono / Docker local / smoke APK).
+**Fase actual:** 3 — Rebanada P0; **T05 DOING**. T02 DONE. Teléfono físico visto (`68486ddd`); install APK bloqueada por Xiaomi (USER_RESTRICTED). T01/T04/T05 sin DONE.
 
 ## Fase 0 — Preparación reproducible
 
@@ -173,5 +173,6 @@ Orden: T01 scaffold → T02 CI → T03/T04 seed+smoke → T05 auth+tests → T06
 
 - 2026-09-11: Tomos PDF I–VI mapeados al molde. Huecos de los PDF (plataforma, cloud, G/W/T, CI, modelo de tablas) cerrados con supuestos S1–S8 en el perfil.
 - 2026-09-11: T02 DONE — repo público + Actions PASS (verify + build_apk). T05 sigue DOING (falta teléfono). T01 sin smoke.
+- 2026-09-11: APK `wammetka-v0.1.0+2-arm64.apk` (dart-define cliente). adb `68486ddd` Redmi 23129RA5FL. Install `USER_RESTRICTED` (Xiaomi: Instalar vía USB / aceptar diálogo). T01/T04/T05 no DONE.
 - T03 no debe usar el project-ref de otro aplicativo de la org.
 
