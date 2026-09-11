@@ -10,5 +10,6 @@
 | 2026-09-11 | T03 Datos | proyecto Supabase | `create_project` wammetka sa-east-1 | PASS | cloud | `wwhyypadkjjbgkmlbpss` | Distincto de otros proyectos de la org |
 | 2026-09-11 | T03 Datos | migraciones + RLS | `apply_migration` init/rls/rpc/revoke | PASS | cloud | `supabase/migrations/` | RLS ON; anon_crear=false; auth_crear=true |
 | 2026-09-11 | T03 Datos | seed | execute_sql municipios/zonas/users/SKU | PASS | staging | 4 users + 3 productos | correos `@wammetka.test` |
+| 2026-09-11 | T02/T03 | git | `git commit` | PASS | local | `0deddf4` | primer commit en `main`; sin remoto |
 
 Solo usar `PASS` cuando el resultado haya sido observado. No guardar secretos ni datos personales.
