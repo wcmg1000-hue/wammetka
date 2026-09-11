@@ -3,7 +3,7 @@
 Marca `[x]` solo con evidencia observada en `docs/evidencias/REGISTRO.md`. Usa `N/A — motivo` cuando una ruta no aplique.
 
 **Proyecto:** Wammetka  
-**Fase actual:** 2 — Plan cerrado; siguiente = T01 scaffold (Implement)
+**Fase actual:** 3 — Rebanada P0; **T05 DOING** (login real). T01/T02/T03 no DONE (teléfono / repo GitHub / Docker local).
 
 ## Fase 0 — Preparación reproducible
 
@@ -45,7 +45,7 @@ Marca `[x]` solo con evidencia observada en `docs/evidencias/REGISTRO.md`. Usa `
 - [x] Specs `docs/specs/` AUTH, CATALOGO, PEDIDO, ACTUALIZACION.
 - [x] Navegación/contratos y estructura de carpetas documentados.
 - [x] Primera rebanada vertical = tareas concretas en `TASKS.md`.
-- [ ] Repo **GitHub o GitLab** identificado (URL y elección en perfil/expediente). **Elección GitHub; URL en T02.**
+- [ ] Repo **GitHub o GitLab** identificado (URL y elección en perfil/expediente). **Elección GitHub; URL bloqueada: el repo aún no existe.**
 - [x] `docs/SEGURIDAD.md` revisado y riesgos registrados.
 - [x] `docs/VERIFICACION.md` con comandos exactos (= jobs del remoto).
 - [x] ADR para decisiones costosas o difíciles de revertir.
@@ -70,11 +70,11 @@ Marca `[x]` solo con evidencia observada en `docs/evidencias/REGISTRO.md`. Usa `
 - [x] Migraciones versionadas y reversibilidad evaluada.
 - [x] Seed sintético reproducible (**día 1**): usuarios/roles de prueba listos.
 - [x] RLS/Security Rules/autorización implementadas.
-- [ ] Pruebas positivas y negativas de permisos pasan **en local**. _(parcial cloud: anon no ejecuta RPC; falta JWT por rol)_
+- [ ] Pruebas positivas y negativas de permisos pasan **en local**. _(N/A Docker; staging: login seed + no-puede autoascenso PASS en test live)_
 - [ ] Si nube: tras local OK → **1 smoke cloud** desde el **dispositivo del perfil** (staging/dev; sin `catch` vacío).
-- [ ] Lint/pruebas de BD pasan.
+- [ ] Lint/pruebas de BD pasan. _(advisors: `crear_pedido` definer a authenticated es intencional; HIBP Auth WARN)_
 - [ ] Staging separado de producción preparado (o N/A solo local).
-- [ ] Credenciales privilegiadas ausentes del cliente.
+- [x] Credenciales privilegiadas ausentes del cliente.
 
 **Puerta:** schema/permisos OK en local; smoke de producto en dispositivo del perfil cuando hay nube.
 
@@ -85,8 +85,8 @@ Orden: T01 scaffold → T02 CI → T03/T04 seed+smoke → T05 auth+tests → T06
 - [x] Scaffold y estructura real del stack. (`flutter analyze` + APK arm64 en REGISTRO; **falta smoke teléfono**)
 - [x] Tema/componentes base cuando existe UI. (`lib/theme/`)
 - [ ] **CI del remoto** (T02): format + analyze + test verdes (PR/MR y default); build **arm64** verde en default — ver `CI_CD.md`.
-- [ ] Flujo crítico UI/API → auth → autorización → dato (**sin mocks permanentes**).
-- [ ] Given/When/Then con dueño (`test` o `smoke` en §12); **3 tests núcleo** (auth / no-puede / validación) — `QA_MINIMO.md`.
+- [ ] Flujo crítico UI/API → auth → autorización → dato (**sin mocks permanentes**). _(auth cliente T05; catálogo T06 no abierto)_
+- [ ] Given/When/Then con dueño (`test` o `smoke` en §12); **3 tests núcleo** (auth / no-puede / validación) — `QA_MINIMO.md`. _(tests núcleo PASS en REGISTRO; falta smoke teléfono)_
 - [ ] Smoke en **dispositivo del perfil** (Android → APK + teléfono; web → navegador; etc.).
 - [ ] **Auto-update** si Android APK directo; si no, N/A — motivo.
 - [ ] URL pipeline + PASS en `REGISTRO.md`.
@@ -172,6 +172,7 @@ Orden: T01 scaffold → T02 CI → T03/T04 seed+smoke → T05 auth+tests → T06
 ## Notas
 
 - 2026-09-11: Tomos PDF I–VI mapeados al molde. Huecos de los PDF (plataforma, cloud, G/W/T, CI, modelo de tablas) cerrados con supuestos S1–S8 en el perfil.
+- 2026-09-11: T05 cliente Supabase por `--dart-define` (nunca `service_role`). Login seed observado en test live. T02 sigue sin repo GitHub. T01 sin teléfono.
 - T03 no debe usar el project-ref de otro aplicativo de la org.
 - Git: no hay commit hasta petición explícita.
 

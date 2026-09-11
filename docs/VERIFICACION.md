@@ -10,7 +10,8 @@ Stack: Flutter + Supabase (D1). Remoto: GitHub Actions. Comandos = jobs de `.git
 |---|---|---|---|
 | Formato | `dart format --set-exit-if-changed .` | exit 0 | **sí** (Flutter) — job CI en PR/MR + default |
 | Lint/análisis | `flutter analyze` _(u equiv.)_ | exit 0 | **sí** — PR/MR + default |
-| Tests del núcleo | `flutter test` _(3 mínimos en T05/T06: auth, no-puede, validación — `QA_MINIMO.md`)_ | exit 0 | **sí** desde rebanada — PR/MR + default |
+| Tests del núcleo | `flutter test` _(3 mínimos en T05/T06: auth, no-puede / validación — `QA_MINIMO.md`)_ | exit 0 (live se salta sin dart-define) | **sí** desde rebanada — PR/MR + default |
+| Login seed (opcional local) | `powershell -File tool/write_dart_defines.ps1` luego `flutter test test/auth_live_optional_test.dart --dart-define-from-file=dart_defines.local.json` | PASS login `cliente@wammetka.test` + no-puede autoascenso | **local/staging**; archivo define gitignored |
 | Build artefacto | `flutter build apk --release --target-platform android-arm64` / `build web` / otro | artefacto arm64 (o split-per-abi conservando arm64) | **sí** — CI solo en rama default; local cuando haga falta |
 | Rules / RLS | según stack (emulador / `supabase test db`) | +/− OK | **local Fase 2D**; job CI opcional (no en YAML base) |
 | Publicar update | Storage + `version_code` + `sha256` + `apk_url` (`docs/PUBLISH_APK.md`) | teléfono detecta `versionCode` | solo APK directo |

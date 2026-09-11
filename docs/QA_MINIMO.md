@@ -8,9 +8,9 @@ Completar en expediente §12 (o aquí si §12 es N/A). Cada fila = un escenario.
 
 | ID | Given / When / Then (1 línea) | Prueba | Evidencia |
 |---|---|---|---|
-| AC-01 | | `test` / `smoke` / ambos | archivo test o fila REGISTRO |
-| AC-02 | (incluir al menos un **no puede**) | | |
-| AC-03 | (excepción del `CG.challenge` si aplica) | | |
+| AC-01 | Cliente seed entra y carga `profiles.rol` | `test` (live opcional) + smoke pendiente | `test/auth_live_optional_test.dart` · REGISTRO T05 |
+| AC-02 | Cliente no puede autoascender a admin | `test` | `auth_policy` + live update rol |
+| AC-03 | Correo/contraseña inválidos no fingen éxito | `test` | `test/auth_nucleo_test.dart` + widget login |
 
 **Regla:** no hay Converge si queda un G/W/T del módulo sin `test` ni `smoke`.
 

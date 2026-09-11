@@ -7,7 +7,7 @@
 **Flujo crítico:** Cliente confirma pedido contraentrega; el comercio lo ve y puede aceptarlo  
 **Dispositivo de prueba:** teléfono físico + APK arm64 (web Chrome = complemento)  
 **Remoto CI:** GitHub Actions  
-**Tarea actual:** T03  
+**Tarea actual:** T05  
 
 ## Estados
 
@@ -22,11 +22,11 @@
 
 | ID | Módulo | Tarea (1 acción) | Depende | DoD verificable | Estado | Evidencia |
 |---|---|---|---|---|---|---|
-| T01 | Scaffold | App Flutter corre; tema base; APK arm64 compilable | — | `flutter analyze` exit 0 + APK generado | DOING | REGISTRO analyze/test/build PASS; falta smoke teléfono |
-| T02 | CI | GitHub Actions: format + analyze + test (+ build arm64 en default) | T01 | Pipeline **PASS** | TODO | Git local OK; crear repo GitHub 404 (falta permiso de la app) |
-| T03 | Datos | Proyecto Supabase Wammetka + migraciones + RLS + seed | T01 | Seed listo; RLS +/− OK en local | DOING | Cloud schema+seed; RLS ON; anon no ejecuta crear_pedido. Falta Docker local + tests JWT |
-| T04 | Smoke | 1 escritura cloud desde el teléfono (pedido o perfil) | T03 | Visible en Table Editor | TODO | |
-| T05 | Auth | Login por rol + **3 tests núcleo** | T03 | Entra/sale + tests auth / no-puede / validación | TODO | |
+| T01 | Scaffold | App Flutter corre; tema base; APK arm64 compilable | — | `flutter analyze` exit 0 + APK generado | TODO | Analyze/test/build PASS; **smoke teléfono FAIL** (`adb` vacío). No DONE |
+| T02 | CI | GitHub Actions: format + analyze + test (+ build arm64 en default) | T01 | Pipeline **PASS** | TODO | Repo `wcmg1000-hue/wammetka` no existe (MCP 404 + `git ls-remote` 128). No reintentar `create_repository` |
+| T03 | Datos | Proyecto Supabase Wammetka + migraciones + RLS + seed | T01 | Seed listo; RLS +/− OK en local | TODO | Cloud schema+seed; tokens Auth `''`; GRANT helpers RLS. Docker local N/A. No DONE |
+| T04 | Smoke | 1 escritura cloud desde el teléfono (pedido o perfil) | T03 | Visible en Table Editor | TODO | Bloqueado: sin teléfono |
+| T05 | Auth | Login por rol + **3 tests núcleo** | T03 | Entra/sale + tests auth / no-puede / validación | DOING | Cliente `supabase_flutter` + tests núcleo PASS; login seed PASS (local dart-define). Falta smoke APK+teléfono |
 | T06 | Rebanada | Catálogo + carrito + confirmar + bandeja comercio | T05 | AC-01…AC-10 con dueño; smoke teléfono | TODO | |
 | T07 | Auto-update | `app_config` + SHA-256 + diálogo | T06 | Update en teléfono | TODO | |
 

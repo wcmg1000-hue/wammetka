@@ -36,7 +36,7 @@ Proyecto cloud **wammetka** creado 2026-09-11 (T03). Distincto de cualquier otro
 - **Comando de inicio local:** `npx supabase start` (requiere Docker)
 - **Comando reset + migraciones + seed:** `npx supabase db reset`
 - **Comando lint:** advisors MCP `get_advisors` (security)
-- **Comando pruebas RLS/rules:** `has_function_privilege` + políticas; pruebas JWT en T05
+- **Comando pruebas RLS/rules:** `has_function_privilege` + políticas; JWT: `flutter test test/auth_live_optional_test.dart --dart-define-from-file=dart_defines.local.json` (gitignored)
 - **Backup y restauración:** Dashboard Supabase
 - **Rollback de migraciones:** no editar migraciones aplicadas; nueva migración down
 
@@ -45,9 +45,10 @@ Proyecto cloud **wammetka** creado 2026-09-11 (T03). Distincto de cualquier otro
 - [x] RLS desplegada en tablas public del P0
 - [x] `anon` no ejecuta `crear_pedido` ni `handle_new_user`
 - [x] `authenticated` sí ejecuta `crear_pedido` (la función exige rol cliente)
+- [x] `private.jwt_role` / `private.is_staff`: EXECUTE a anon+authenticated (políticas RLS)
 - [ ] App Check/antiabuso evaluado cuando aplica
 - [x] Índices en queries frecuentes
-- [x] Secretos solo en `.env`
+- [x] Secretos solo en `.env` / `dart_defines.local.json` (gitignored). Cliente: anon o publishable via `--dart-define`. Nunca `service_role`.
 
 ## Tablas / colecciones principales
 
@@ -64,7 +65,8 @@ Proyecto cloud **wammetka** creado 2026-09-11 (T03). Distincto de cualquier otro
 ## Seed (staging)
 
 Correos: `admin@wammetka.test`, `comercio@wammetka.test`, `cliente@wammetka.test`, `reparto@wammetka.test`.  
-Contraseña: `SEED_PASSWORD` en `.env` local (no en git).
+Contraseña: `SEED_PASSWORD` en `.env` local (no en git).  
+Tokens Auth: `confirmation_token` / `recovery_token` / `email_change*` deben ser `''`, no NULL (ficha **3.31**).
 
 ## Notas
 

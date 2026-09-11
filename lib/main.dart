@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'app.dart';
+import 'config/supabase_bootstrap.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const WammetkaApp());
+  await bootstrapSupabase();
+  runApp(WammetkaApp());
 }

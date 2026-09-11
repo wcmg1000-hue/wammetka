@@ -1,28 +1,51 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../theme/wammetka_colors.dart';
-import 'login_screen.dart';
+import 'auth_providers.dart';
 
-/// Splash del MD: marca, frase y carga; luego Login (sesión llega en T05).
-class SplashScreen extends StatefulWidget {
+/// Splash del MD: marca, frase y carga; restaura sesión (T05) con tope 3 s.
+class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future<void>.delayed(const Duration(milliseconds: 1200), () {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      unawaited(_boot());
+    });
+  }
+
+  Future<void> _boot() async {
+    final router = GoRouter.of(context);
+    try {
+      final profile = await ref
+          .read(sessionProvider.notifier)
+          .restore()
+          .timeout(const Duration(seconds: 3), onTimeout: () => null);
+      await Future<void>.delayed(const Duration(milliseconds: 400));
       if (!mounted) {
         return;
       }
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute<void>(builder: (_) => const LoginScreen()),
-      );
-    });
+      if (profile != null) {
+        router.go('/sesion');
+      } else {
+        router.go('/login');
+      }
+    } catch (_) {
+      if (!mounted) {
+        return;
+      }
+      router.go('/login');
+    }
   }
 
   @override

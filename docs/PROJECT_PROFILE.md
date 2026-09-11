@@ -13,7 +13,7 @@ Se completa al finalizar el descubrimiento para evitar imponer herramientas inne
 | Flujo crítico | Cliente en zona piloto arma carrito en un comercio abierto, confirma pedido contraentrega y el pedido queda en la nube; el comercio lo ve y puede aceptarlo |
 | Brief / expediente | `docs/EXPEDIENTE_TECNICO.md` (**siempre** obligatorio) |
 | Remoto Git | **GitHub** |
-| Repo (URL) | _(T02 bloqueado: la app de GitHub devolvió 404 al crear el repo; git local `main` listo)_ |
+| Repo (URL) | _(T02 bloqueado: `wcmg1000-hue/wammetka` no existe; MCP list_branches 404 + `git ls-remote` 128. No reintentar `create_repository`.)_ |
 | Tareas | `docs/TASKS.md` |
 | Menos rework | `docs/RECETA_MENOS_REWORK.md` (puerta DONE) |
 | QA mínimo | `docs/QA_MINIMO.md` (3 tests + trazabilidad + regresión) |
@@ -117,7 +117,7 @@ La CI del remoto elegido es **igual** en ambos ritmos. Cambia la profundidad del
 - [x] `BITACORA_DESARROLLO.md` lista.
 - [x] Auto-update APK si hay Android APK directo. (Spec existente; implementación T07.)
 - [ ] Remoto GitHub **o** GitLab: repo + YAML CI en 1ª rebanada (T02).
-- [ ] Seed día 1 si es demostrable. (T03.)
+- [ ] Seed día 1 si es demostrable. (T03 cloud + T05 login seed; falta acción en teléfono.)
 
 ## Supuestos numerados (reversibles)
 

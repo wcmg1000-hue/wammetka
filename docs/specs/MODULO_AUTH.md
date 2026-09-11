@@ -99,13 +99,13 @@ Acciones:
 
 ## 13. Criterios de aceptación
 
-- [ ] AC-01 login seed cliente
-- [ ] AC-02 cliente no lee pedidos ajenos (permiso)
+- [x] AC-01 login seed cliente (`test/auth_live_optional_test.dart` con dart-define; falta smoke teléfono)
+- [ ] AC-02 cliente no lee pedidos ajenos (permiso) — T06
 
 ## 14. Pruebas mínimas
 
-- [ ] Auth OK / auth fallido (test núcleo 1)
-- [ ] Rol que no puede (test núcleo 2)
+- [x] Auth OK / auth fallido (test núcleo 1)
+- [x] Rol que no puede (test núcleo 2)
 
 ## 15. Seguridad y privacidad
 

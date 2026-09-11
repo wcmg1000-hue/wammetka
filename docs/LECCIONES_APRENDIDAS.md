@@ -12,7 +12,7 @@
 
 1. [UI](#1--ui) — **1.14** ink tapado en `ListTile`
 2. [Entorno y toolchain (build)](#2--entorno-y-toolchain-build) — **2.6** auto-update · **2.7** upload · **2.8** hang 2.º dispositivo · **2.9** Play Protect · **2.10–2.12** Patrol/JDK (solo si hay E2E)
-3. [Base de datos y backend](#3--base-de-datos-y-backend) — Firebase + Supabase · **3.26–3.30** caja, pedidos sin ítems, pull/wipe, E2E≠prod, bootstrap caché
+3. [Base de datos y backend](#3--base-de-datos-y-backend) — Firebase + Supabase · **3.26–3.32** caja, pedidos, pull/wipe, E2E≠prod, bootstrap, tokens Auth NULL, GRANT helpers RLS
 4. [Proceso de trabajo y QA](#4--proceso-de-trabajo-y-qa) — MD-first, APK+teléfono · **4.22–4.25** E2E opcional / backup
 5. [Checklist preventivo](#5--checklist-preventivo)
 
@@ -816,6 +816,20 @@ Releer el MD → listar destinos/nav → cablear o documentar exclusión → no 
 - **Cómo evitarlo:** hidratar si `count local < count remoto` (o `forceRemote` en refresh); paginar por `id` (no por nombre); cargar IDs `pendingSync` una vez; tras `_pullAll` emitir los topics que las listas escuchan.
 - **Cómo resolverlo:** `list(forceRemote: true)` + upsert sin pisar `pendingSync`; abrir la lista con internet y esperar el conteo remoto.
 
+### 3.31 `[Supabase]` Login 500: `confirmation_token` NULL en seed SQL
+
+- **Síntoma:** `signInWithPassword` responde 500 `unexpected_failure` / “Database error querying schema”. En logs de Auth: `Scan error on column index 3, name "confirmation_token": converting NULL to string is unsupported`.
+- **Causa raíz:** usuarios creados con `INSERT` directo en `auth.users` dejando tokens en NULL. GoTrue espera cadena vacía, no NULL.
+- **Cómo evitarlo:** crear usuarios con Admin API / `auth.admin.createUser`, o en SQL poner `confirmation_token = ''`, `recovery_token = ''`, `email_change_token_new = ''`, `email_change = ''`. Nunca dejar esos campos NULL.
+- **Cómo resolverlo:** `UPDATE auth.users SET confirmation_token = coalesce(confirmation_token, ''), recovery_token = coalesce(recovery_token, ''), email_change_token_new = coalesce(email_change_token_new, ''), email_change = coalesce(email_change, '')`. Verificar login con anon key (nunca `service_role` en el cliente).
+
+### 3.32 `[Supabase]` RLS 42501: `permission denied for function is_staff`
+
+- **Síntoma:** tras login, `from('profiles').select()` falla con `42501 permission denied for function is_staff` (o `jwt_role`).
+- **Causa raíz:** las políticas de seguridad a nivel de fila (Row Level Security, RLS) llaman helpers `SECURITY DEFINER` en schema `private`, pero se revocó `EXECUTE` a `anon`/`authenticated`. La expresión de la política corre como el rol de la sesión.
+- **Cómo evitarlo:** revocar `EXECUTE` de funciones definer **expuestas** (`public.handle_new_user`, etc.). Los helpers que usan las políticas (`private.jwt_role`, `private.is_staff`) necesitan `GRANT USAGE ON SCHEMA private` + `GRANT EXECUTE` a `anon` y `authenticated`.
+- **Cómo resolverlo:** aplicar esos GRANT; no mover los helpers a `public`. Reprobar SELECT del propio perfil con JWT de cliente.
+
 ### 4.14 `[General]` No usar MCP/ID Stitch; MD primero, HTML manual al final
 
 - **Síntoma:** se pierde tiempo con MCP o pidiendo ID de proyecto Stitch.
@@ -949,6 +963,8 @@ E2E **no** forma parte de la receta 2.10 del kit. Solo si el usuario lo pide y e
 - [ ] Paginación `.range()` si puede haber >1000 filas (**3.12**).
 - [ ] Offline-first: outbox + `await kickSync` + badge solo offline; hidratar si `count local < remoto` (**3.13**, **3.20**, **3.30**). Cabecera+líneas: un solo kick; ítems no `failed` terminal (**3.27**). No wipe en pull vacío; tombstone de caché **nunca** hace DELETE remoto (**3.28**).
 - [ ] Trigger anti-autoascenso `rol`/`activo` (**3.14**); tokens temporales → revocar (**3.22**).
+- [ ] Seed Auth: tokens `confirmation_token`/`recovery_token` como `''` no NULL (**3.31**).
+- [ ] Helpers RLS en `private`: `GRANT EXECUTE` a `anon`/`authenticated` si las políticas los llaman (**3.32**).
 - [ ] Auto-update: arm64 + `app_config` (**2.6**); timeouts upload (**2.7**); 2.º dispositivo (**2.8**); firma release (**2.9**).
 - [ ] Stripe: secret solo Edge; confirm por API; webhook opcional (**3.18**).
 - [ ] Badges = datos reales (**3.19**); facturación SaaS si aplica (**3.21**); cierre de caja = cobros aplicados − gastos (**3.26**).

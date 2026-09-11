@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../theme/wammetka_colors.dart';
+import 'auth_errors.dart';
+import 'auth_providers.dart';
+import 'auth_validators.dart';
 
-class RegisterScreen extends StatefulWidget {
+class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  ConsumerState<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
   final _nombre = TextEditingController();
   final _telefono = TextEditingController();
@@ -18,6 +23,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _confirm = TextEditingController();
   String _municipio = 'Fonseca';
   bool _datos = false;
+  bool _busy = false;
   String? _error;
 
   static const List<String> _municipios = <String>[
@@ -39,7 +45,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
-  void _crear() {
+  Future<void> _crear() async {
     setState(() => _error = null);
     if (!(_formKey.currentState?.validate() ?? false)) {
       return;
@@ -50,9 +56,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
       });
       return;
     }
-    setState(() {
-      _error = 'Aún no hay servidor. El alta real se conecta en la tarea T03.';
-    });
+    setState(() => _busy = true);
+    final router = GoRouter.of(context);
+    try {
+      final profile = await ref
+          .read(sessionProvider.notifier)
+          .signUpCliente(
+            email: _email.text,
+            password: _password.text,
+            nombre: _nombre.text,
+            telefono: _telefono.text,
+            municipioNombre: _municipio,
+          );
+      if (!mounted) {
+        return;
+      }
+      if (profile == null) {
+        setState(() {
+          _error = 'Cuenta creada. Si pide confirmación, revisa el correo y luego entra.';
+        });
+        return;
+      }
+      router.go('/sesion');
+    } catch (error) {
+      if (!mounted) {
+        return;
+      }
+      setState(() => _error = mapAuthFailure(error));
+    } finally {
+      if (mounted) {
+        setState(() => _busy = false);
+      }
+    }
   }
 
   @override
@@ -69,45 +104,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
               children: [
                 TextFormField(
                   controller: _nombre,
+                  enabled: !_busy,
                   decoration: const InputDecoration(labelText: 'Nombre'),
-                  validator: (v) => (v == null || v.trim().length < 2)
-                      ? 'Nombre demasiado corto'
-                      : null,
+                  validator: AuthValidators.nombre,
                 ),
                 const SizedBox(height: 12),
                 TextFormField(
                   controller: _telefono,
+                  enabled: !_busy,
                   keyboardType: TextInputType.phone,
                   decoration: const InputDecoration(labelText: 'Teléfono'),
-                  validator: (v) {
-                    final d = (v ?? '').replaceAll(RegExp(r'\D'), '');
-                    if (d.length < 7) {
-                      return 'Teléfono incompleto';
-                    }
-                    return null;
-                  },
+                  validator: AuthValidators.telefono,
                 ),
                 const SizedBox(height: 12),
                 TextFormField(
                   controller: _email,
+                  enabled: !_busy,
                   keyboardType: TextInputType.emailAddress,
                   decoration: const InputDecoration(labelText: 'Correo'),
-                  validator: (v) => (v == null || !v.contains('@'))
-                      ? 'Correo inválido'
-                      : null,
+                  validator: AuthValidators.email,
                 ),
                 const SizedBox(height: 12),
                 TextFormField(
                   controller: _password,
+                  enabled: !_busy,
                   obscureText: true,
                   decoration: const InputDecoration(labelText: 'Contraseña'),
-                  validator: (v) => (v == null || v.length < 8)
-                      ? 'Mínimo 8 caracteres'
-                      : null,
+                  validator: AuthValidators.passwordMin8,
                 ),
                 const SizedBox(height: 12),
                 TextFormField(
                   controller: _confirm,
+                  enabled: !_busy,
                   obscureText: true,
                   decoration: const InputDecoration(
                     labelText: 'Confirmar contraseña',
@@ -124,17 +152,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     for (final m in _municipios)
                       DropdownMenuItem<String>(value: m, child: Text(m)),
                   ],
-                  onChanged: (v) {
-                    if (v != null) {
-                      setState(() => _municipio = v);
-                    }
-                  },
+                  onChanged: _busy
+                      ? null
+                      : (v) {
+                          if (v != null) {
+                            setState(() => _municipio = v);
+                          }
+                        },
                 ),
                 const SizedBox(height: 8),
                 CheckboxListTile(
                   contentPadding: EdgeInsets.zero,
                   value: _datos,
-                  onChanged: (v) => setState(() => _datos = v ?? false),
+                  onChanged: _busy
+                      ? null
+                      : (v) => setState(() => _datos = v ?? false),
                   title: const Text(
                     'Acepto el aviso de tratamiento de datos',
                     maxLines: 2,
@@ -146,11 +178,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Text(_error!, style: TextStyle(color: WammetkaColors.error)),
                 const SizedBox(height: 16),
                 FilledButton(
-                  onPressed: _crear,
-                  child: const Text('Crear cuenta'),
+                  onPressed: _busy ? null : _crear,
+                  child: _busy
+                      ? const SizedBox(
+                          height: 22,
+                          width: 22,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Text('Crear cuenta'),
                 ),
                 TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
+                  onPressed: _busy ? null : () => context.go('/login'),
                   child: const Text('Volver a Entrar'),
                 ),
               ],

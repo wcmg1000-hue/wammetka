@@ -7,14 +7,14 @@
 **Stack:** Flutter + Supabase (D1)  
 **Ritmo:** proyecto completo  
 **Tarifa de referencia (opcional):** _(ej. USD/hora)_  
-**Ruta APK / consola / Project ID (sin secretos):** `entregas/apk/` · project-ref pendiente T03  
+**Ruta APK / consola / Project ID (sin secretos):** `entregas/apk/` · `wwhyypadkjjbgkmlbpss`  
 
 | Totales | Valor |
 |---------|-------|
-| Total minutos acumulados | 103 |
-| Total horas (min ÷ 60) | 1.72 |
-| Horas facturables | 1.72 (redondeo a criterio de cobro) |
-| Notas cobro (redondeo, no cobrables) | revisión de tomos + docs CG + T01 |
+| Total minutos acumulados | 126 |
+| Total horas (min ÷ 60) | 2.10 |
+| Horas facturables | 2.10 (redondeo a criterio de cobro) |
+| Notas cobro (redondeo, no cobrables) | revisión de tomos + docs CG + T01 + T03 + T05 auth |
 
 ---
 
@@ -24,6 +24,7 @@
 |---|-------|--------|-----|---------|-------|-------|--------------------|------------------------|--------------------|------------------|--------------------------|
 | 1 | 2026-09-11 | 14:46 | 15:50 | 64 | proyecto completo | Flutter+Supabase | Huecos tomos PDF vs molde; Clarify/Specify/Challenge/Plan; T01 scaffold APK | Tomos sin plataforma/CI/G/W/T; `adb` sin teléfono | Mapear PDF → expediente CG; no reutilizar otro project-ref | T01 sin DONE hasta smoke teléfono; T02 repo GitHub; T03 Supabase nuevo | REGISTRO + `entregas/apk/wammetka-v0.1.0+1-arm64.apk` |
 | 2 | 2026-09-11 | 15:46 | 16:25 | 39 | proyecto completo | Flutter+Supabase | T02 git local; T03 proyecto Supabase + RLS + seed | GitHub create repo 404; sin Docker; sin teléfono | Proyecto cloud nuevo no reutilizado | T02 espera permiso GitHub; T01 smoke teléfono | project-ref wwhyypadkjjbgkmlbpss |
+| 3 | 2026-09-11 | 16:29 | 16:52 | 23 | proyecto completo | Flutter+Supabase | T05 cliente Auth + tests núcleo; arreglo seed tokens + GRANT helpers RLS | `adb` vacío; repo GitHub inexistente; login 500 por tokens NULL luego 42501 is_staff | Una sola DOING (T05); live test sin secretos en git | T01/T02/T05 sin DONE (teléfono / remoto / smoke APK) | REGISTRO T05 analyze/test/live; APK v0.1.0+1 sin redeploy |
 
 \*Modo: `proyecto completo` / `demo rápido` / `solo fix` / `solo docs`
 
