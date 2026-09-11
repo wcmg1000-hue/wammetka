@@ -378,15 +378,15 @@ Auditoría: `docs/manual/AUDITORIA_NAVEGACION.md` (cuando haya UI).
 | ID | Módulo | Given | When | Then | Prueba (`test` / `smoke`) | Evidencia |
 |---|---|---|---|---|---|---|
 | AC-01 | Auth | Usuario seed cliente | Entra con email/clave correctos | Ve shell cliente (tab Inicio) | `test` | T05 |
-| AC-02 | Auth | Usuario seed cliente | Intenta leer pedidos de otro comercio (API) | 0 filas / error permiso | `test` | T05 no-puede |
-| AC-03 | Pedido | Carrito con SKU y dirección | Confirma con cantidad válida | Pedido en nube `pendiente_comercio` y total = ítems + domicilio | `test` | T06 validación |
-| AC-04 | Pedido | Comercio cerrado | Cliente pulsa confirmar | Error en español; no hay fila pedido | `test` o `smoke` | T06 |
-| AC-05 | Pedido | Municipio no habilitado | Confirma | Error cobertura; no hay pedido | `test` | T06 |
-| AC-06 | Pedido | Carrito de comercio A | Agrega SKU de comercio B | Diálogo vaciar o rechazo; no mezcla | `smoke` | T06 |
-| AC-07 | Pedido | Stock = 1 | Confirma cantidad 2 | Error stock; stock intacto | `test` | T06 |
-| AC-08 | Pedido | Cliente con 3 pedidos pendientes | Intenta un 4.º | Error tope; no crea | `test` | T06 |
-| AC-09 | Pedido | Pedido `pendiente_comercio` > 10 min | Cliente cancela | Estado `cancelado`; stock revertido | `smoke` | T06 |
-| AC-10 | Pedido | Comercio dueño | Abre bandeja | Ve el pedido nuevo y puede aceptar | `smoke` | T06 dispositivo |
+| AC-02 | Auth | Usuario seed cliente | Intenta leer pedidos de otro comercio (API) | 0 filas / error permiso | `test` | T05 no-puede + `AuthPolicy.canReadForeignPedidos` |
+| AC-03 | Pedido | Carrito con SKU y dirección | Confirma con cantidad válida | Pedido en nube `pendiente_comercio` y total = ítems + domicilio | `test` + `smoke` | `pedido_nucleo_test` + Redmi pedido `a6fb5a34-…360e` total 950000 |
+| AC-04 | Pedido | Comercio cerrado | Cliente pulsa confirmar | Error en español; no hay fila pedido | `test` | `OrderRules.canConfirm` cerrado |
+| AC-05 | Pedido | Municipio no habilitado | Confirma | Error cobertura; no hay pedido | `test` | `OrderRules.canConfirm` municipio |
+| AC-06 | Pedido | Carrito de comercio A | Agrega SKU de comercio B | Diálogo vaciar o rechazo; no mezcla | `test` | `CartController.tryAdd` mix + `replaceWith` |
+| AC-07 | Pedido | Stock = 1 | Confirma cantidad 2 | Error stock; stock intacto | `test` | `cantidadVsStock` + tryAdd noStock |
+| AC-08 | Pedido | Cliente con 3 pedidos pendientes | Intenta un 4.º | Error tope; no crea | `test` | `OrderRules.canConfirm` tope 3 |
+| AC-09 | Pedido | Pedido `pendiente_comercio` > 10 min | Cliente cancela | Estado `cancelado`; stock revertido | `smoke` | T06 UI Cancelar pedido (RPC lista; no ejercido en smoke +3) |
+| AC-10 | Pedido | Comercio dueño | Abre bandeja | Ve el pedido nuevo y puede aceptar | `smoke` | Redmi bandeja `Cliente Piloto` → `Aceptado` |
 | AC-11 | Update | `version_code` remoto > local | Arranca app | Ofrece/descarga update; si sha256 no coincide no instala | `smoke` | T07 |
 
 Casos: éxito · error · vacío · **sin permiso** · excepción `CG.challenge` · sin red (mensaje, no éxito falso).  

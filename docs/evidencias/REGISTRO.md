@@ -25,5 +25,16 @@
 | 2026-09-11 | T01/T05 | install APK | `adb -s 68486ddd install -r …v0.1.0+2-arm64.apk` | FAIL `INSTALL_FAILED_USER_RESTRICTED` | teléfono | artefacto +2 | Xiaomi canceló/bloqueó USB install. **T01/T05 no DONE** |
 | 2026-09-11 | T05 Auth | smoke login teléfono | no ejecutado | FAIL — APK no instalada | — | — | No se observó login `cliente@wammetka.test` |
 | 2026-09-11 | T04 Smoke | escritura cloud desde dispositivo | no ejecutado | FAIL — APK no instalada | — | botón Guardar perfil en código | **T04 no DONE** |
+| 2026-09-11 | T01/T05 | install APK | `adb -s 68486ddd install -r entregas/apk/wammetka-v0.1.0+2-arm64.apk` | PASS Success | Redmi 68486ddd | APK +2 | reintento; ya no USER_RESTRICTED |
+| 2026-09-11 | T01 Scaffold | smoke teléfono | `am start` + uiautomator | PASS | Redmi 68486ddd | `co.wammetka.wammetka` | UI `Wammetka` + `Entrar a Wammetka` |
+| 2026-09-11 | T05 Auth | smoke login/logout | login seed + `Cerrar sesión` | PASS | Redmi 68486ddd | `cliente@wammetka.test` | UI `Hola, Cliente Piloto` / `Rol: cliente` → vuelve a `Entrar a Wammetka` |
+| 2026-09-11 | T04 Smoke | Guardar perfil | tap `Guardar perfil` | PASS | Redmi + staging | `profiles.telefono=3001234567` | UI `Perfil guardado`; SELECT cloud confirmado |
+
+| 2026-09-11 | T06 Pedido | analyze | `flutter analyze` | PASS (exit 0, 0 issues) | local Flutter 3.47.2 | `lib/features/catalog` + `order` | consola Agent |
+| 2026-09-11 | T06 Pedido | tests núcleo | `flutter test` | PASS 17 + 1 skip live | local | `test/pedido_nucleo_test.dart` + auth | AC-03/04/05/06/07/08 + no-mezclar |
+| 2026-09-11 | T06 Pedido | build APK arm64 | `flutter build apk --release --target-platform android-arm64 --build-name=0.1.0 --build-number=3 --dart-define-from-file=dart_defines.apk.json` | PASS (18.3 MB) | local | `entregas/apk/wammetka-v0.1.0+3-arm64.apk` | defines cliente; sin seed |
+| 2026-09-11 | T06 Pedido | install APK | `adb -s 68486ddd install -r …v0.1.0+3-arm64.apk` | PASS Success | Redmi 68486ddd | APK +3 | primer intento; no USER_RESTRICTED |
+| 2026-09-11 | T06 Pedido | smoke AC-03 | cliente seed: catálogo → carrito → confirmar contraentrega | PASS | Redmi + staging | pedido `a6fb5a34-9662-46ba-908a-ff3c438a360e` | UI `Pedido enviado` / `A6FB5A34` / `$9.500 COP · Contraentrega`; SQL total 950000 = 450000+500000; estado `pendiente_comercio` |
+| 2026-09-11 | T06 Pedido | smoke AC-10 | comercio seed: bandeja Nuevos → Aceptar pedido | PASS | Redmi + staging | mismo pedido | UI `Cliente Piloto` / `Nuevo` → `Aceptado` + `Marcar preparado`; evento `pendiente_comercio`→`aceptado` |
 
 Solo usar `PASS` cuando el resultado haya sido observado. No guardar secretos ni datos personales.

@@ -3,7 +3,7 @@
 Marca `[x]` solo con evidencia observada en `docs/evidencias/REGISTRO.md`. Usa `N/A — motivo` cuando una ruta no aplique.
 
 **Proyecto:** Wammetka  
-**Fase actual:** 3 — Rebanada P0; **T05 DOING**. T02 DONE. Teléfono físico visto (`68486ddd`); install APK bloqueada por Xiaomi (USER_RESTRICTED). T01/T04/T05 sin DONE.
+**Fase actual:** 3 — Rebanada P0; T01/T02/T04/T05/T06 DONE. **Siguiente = T07** (auto-update). T03 local Docker N/A.
 
 ## Fase 0 — Preparación reproducible
 
@@ -71,7 +71,7 @@ Marca `[x]` solo con evidencia observada en `docs/evidencias/REGISTRO.md`. Usa `
 - [x] Seed sintético reproducible (**día 1**): usuarios/roles de prueba listos.
 - [x] RLS/Security Rules/autorización implementadas.
 - [ ] Pruebas positivas y negativas de permisos pasan **en local**. _(N/A Docker; staging: login seed + no-puede autoascenso PASS en test live)_
-- [ ] Si nube: tras local OK → **1 smoke cloud** desde el **dispositivo del perfil** (staging/dev; sin `catch` vacío).
+- [x] Si nube: tras local OK → **1 smoke cloud** desde el **dispositivo del perfil** (staging/dev; sin `catch` vacío). `Guardar perfil` → `telefono=3001234567`
 - [ ] Lint/pruebas de BD pasan. _(advisors: `crear_pedido` definer a authenticated es intencional; HIBP Auth WARN)_
 - [ ] Staging separado de producción preparado (o N/A solo local).
 - [x] Credenciales privilegiadas ausentes del cliente.
@@ -82,12 +82,12 @@ Marca `[x]` solo con evidencia observada en `docs/evidencias/REGISTRO.md`. Usa `
 
 Orden: T01 scaffold → T02 CI → T03/T04 seed+smoke → T05 auth+tests → T06 flujo → T07 auto-update si APK.
 
-- [x] Scaffold y estructura real del stack. (`flutter analyze` + APK arm64 en REGISTRO; **falta smoke teléfono**)
+- [x] Scaffold y estructura real del stack. (`flutter analyze` + APK arm64 + smoke Redmi 68486ddd)
 - [x] Tema/componentes base cuando existe UI. (`lib/theme/`)
 - [x] **CI del remoto** (T02): format + analyze + test verdes (PR/MR y default); build **arm64** verde en default — ver `CI_CD.md`. Run https://github.com/wcmg1000-hue/wammetka/actions/runs/34656548482
-- [ ] Flujo crítico UI/API → auth → autorización → dato (**sin mocks permanentes**). _(auth cliente T05; catálogo T06 no abierto)_
-- [ ] Given/When/Then con dueño (`test` o `smoke` en §12); **3 tests núcleo** (auth / no-puede / validación) — `QA_MINIMO.md`. _(tests núcleo PASS en REGISTRO; falta smoke teléfono)_
-- [ ] Smoke en **dispositivo del perfil** (Android → APK + teléfono; web → navegador; etc.).
+- [x] Flujo crítico UI/API → auth → autorización → dato (**sin mocks permanentes**). Pedido seed en nube + bandeja comercio aceptó (T06).
+- [x] Given/When/Then con dueño (`test` o `smoke` en §12); **3 tests núcleo** (auth / no-puede / validación) — `QA_MINIMO.md`. Pedido: AC-03/07/04/06 en test; AC-03/10 smoke.
+- [x] Smoke en **dispositivo del perfil** (Android → APK + teléfono; web → navegador; etc.). Auth + pedido contraentrega + aceptar en Redmi 68486ddd.
 - [ ] **Auto-update** si Android APK directo; si no, N/A — motivo.
 - [x] URL pipeline + PASS en `REGISTRO.md`.
 
@@ -174,5 +174,6 @@ Orden: T01 scaffold → T02 CI → T03/T04 seed+smoke → T05 auth+tests → T06
 - 2026-09-11: Tomos PDF I–VI mapeados al molde. Huecos de los PDF (plataforma, cloud, G/W/T, CI, modelo de tablas) cerrados con supuestos S1–S8 en el perfil.
 - 2026-09-11: T02 DONE — repo público + Actions PASS (verify + build_apk). T05 sigue DOING (falta teléfono). T01 sin smoke.
 - 2026-09-11: APK `wammetka-v0.1.0+2-arm64.apk` (dart-define cliente). adb `68486ddd` Redmi 23129RA5FL. Install `USER_RESTRICTED` (Xiaomi: Instalar vía USB / aceptar diálogo). T01/T04/T05 no DONE.
+- 2026-09-11: Reintento install SUCCESS. T01/T04/T05 DONE en Redmi. Siguiente T06.
 - T03 no debe usar el project-ref de otro aplicativo de la org.
 

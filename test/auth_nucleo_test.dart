@@ -30,6 +30,8 @@ void main() {
       expect(AuthPolicy.canAcceptPedido(AppRole.comercio), isTrue);
       expect(AuthPolicy.canChangeOwnRole(AppRole.admin), isTrue);
       expect(AuthPolicy.canCreatePedido(AppRole.comercio), isFalse);
+      expect(AuthPolicy.canReadForeignPedidos(AppRole.cliente), isFalse);
+      expect(AuthPolicy.canReadForeignPedidos(AppRole.comercio), isFalse);
     });
   });
 

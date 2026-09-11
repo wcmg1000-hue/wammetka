@@ -12,4 +12,7 @@ abstract final class AuthPolicy {
       role == AppRole.comercio || role == AppRole.admin;
 
   static bool canChangeOwnRole(AppRole actor) => actor == AppRole.admin;
+
+  static bool canReadForeignPedidos(AppRole role) =>
+      role == AppRole.admin || role == AppRole.operacion;
 }

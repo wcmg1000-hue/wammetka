@@ -84,13 +84,13 @@ Vacío de zona; comercio cierra mientras estás en el catálogo (se valida otra 
 
 ## 13. Criterios de aceptación
 
-- [ ] Cliente ve SKUs del seed
-- [ ] Comercio no ve catálogo ajeno
-- [ ] Cerrado → no agrega
+- [x] Cliente ve SKUs del seed
+- [x] Comercio no ve catálogo ajeno
+- [x] Cerrado → no agrega
 
 ## 14. Pruebas mínimas
 
-- [ ] Validación precio/stock al guardar (apoya test núcleo 3 junto con pedido)
+- [x] Validación precio/stock al guardar (apoya test núcleo 3 junto con pedido)
 
 ## 15. Seguridad y privacidad
 

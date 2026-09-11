@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../routing/role_home.dart';
 import '../../theme/wammetka_colors.dart';
 import 'auth_errors.dart';
 import 'auth_providers.dart';
@@ -77,7 +78,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         });
         return;
       }
-      router.go('/sesion');
+      router.go(homePathFor(profile.rol));
     } catch (error) {
       if (!mounted) {
         return;

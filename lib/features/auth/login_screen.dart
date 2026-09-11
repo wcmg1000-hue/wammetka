@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../routing/role_home.dart';
 import '../../theme/wammetka_colors.dart';
 import 'auth_errors.dart';
 import 'auth_providers.dart';
@@ -37,13 +38,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     setState(() => _busy = true);
     final router = GoRouter.of(context);
     try {
-      await ref
+      final profile = await ref
           .read(sessionProvider.notifier)
           .signIn(email: _email.text, password: _password.text);
       if (!mounted) {
         return;
       }
-      router.go('/sesion');
+      router.go(homePathFor(profile.rol));
     } catch (error) {
       if (!mounted) {
         return;

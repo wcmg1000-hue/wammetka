@@ -74,13 +74,13 @@ AC-04…AC-09 (cerrado, cobertura, mix, stock, tope, cancelar). Dos clientes el 
 
 ## 13. Criterios de aceptación
 
-- [ ] AC-03 guarda total correcto
-- [ ] AC-04 a AC-10
+- [x] AC-03 guarda total correcto
+- [x] AC-04 a AC-10 (AC-09 RPC lista; smoke cancelar no corrido en +3)
 
 ## 14. Pruebas mínimas
 
-- [ ] Test núcleo 3: validación que guarda (AC-03)
-- [ ] Tests R1/R3/R7
+- [x] Test núcleo 3: validación que guarda (AC-03)
+- [x] Tests R1/R3/R7 (cerrado/stock/no-mezclar + política RLS)
 
 ## 15. Seguridad y privacidad
 

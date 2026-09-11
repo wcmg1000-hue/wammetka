@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../routing/role_home.dart';
 import '../../theme/wammetka_colors.dart';
 import 'auth_providers.dart';
 
@@ -36,7 +37,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         return;
       }
       if (profile != null) {
-        router.go('/sesion');
+        router.go(homePathFor(profile.rol));
       } else {
         router.go('/login');
       }
