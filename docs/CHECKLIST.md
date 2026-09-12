@@ -176,5 +176,5 @@ Orden: T01 scaffold → T02 CI → T03/T04 seed+smoke → T05 auth+tests → T06
 - 2026-09-11: APK `wammetka-v0.1.0+2-arm64.apk` (dart-define cliente). adb `68486ddd` Redmi 23129RA5FL. Install `USER_RESTRICTED` (Xiaomi: Instalar vía USB / aceptar diálogo). T01/T04/T05 no DONE.
 - 2026-09-11: Reintento install SUCCESS. T01/T04/T05 DONE en Redmi. Siguiente T06.
 - T03 no debe usar el project-ref de otro aplicativo de la org.
-- 2026-09-11: T07 DONE. Instalado 4 vs remoto 5; diálogo + hash OK; `dumpsys versionCode=5`. URL pública Storage `apk/releases/wammetka-v0.1.0+5-arm64.apk`.
+- 2026-09-11: T07 DONE. Instalado 4 vs remoto 5; diálogo + hash OK; `dumpsys versionCode=5`. URL pública Storage `apk/releases/wammetka-v0.1.0+5-arm64.apk`. CI https://github.com/wcmg1000-hue/wammetka/actions/runs/34662746664
 

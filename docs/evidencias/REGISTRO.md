@@ -45,5 +45,6 @@
 | 2026-09-11 | T07 Update | remoto `app_config` | SELECT id=1 | PASS `version_code=5` | staging `wwhyypadkjjbgkmlbpss` | sha256 `811d0e7dac21593d33b9cd9326db35ee2b7db141fb1658d795143d937b561804` | URL `https://wwhyypadkjjbgkmlbpss.supabase.co/storage/v1/object/public/apk/releases/wammetka-v0.1.0+5-arm64.apk` · HEAD 200 |
 | 2026-09-11 | T07 Update | smoke AC-11 | abrir app → diálogo → Actualizar ahora | PASS | Redmi 68486ddd | instalado 4 vs remoto 5 | UI `Nueva versión disponible` / `Actualizar ahora` |
 | 2026-09-11 | T07 Update | smoke hash+install | descarga + SHA-256 + instalador | PASS | Redmi 68486ddd | `dumpsys` `versionCode=5` | hash local +5 = remoto (minúsculas); no mismatch; Xiaomi aviso de riesgos aceptado; reopen sin diálogo |
+| 2026-09-11 | T07 Update | pipeline Actions | workflow `CI` · jobs `verify` + `build_apk` | PASS | GitHub Actions ubuntu-latest Flutter 3.47.2 | `8084d00` | https://github.com/wcmg1000-hue/wammetka/actions/runs/34662746664 |
 
 Solo usar `PASS` cuando el resultado haya sido observado. No guardar secretos ni datos personales.
