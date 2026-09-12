@@ -36,5 +36,6 @@
 | 2026-09-11 | T06 Pedido | install APK | `adb -s 68486ddd install -r …v0.1.0+3-arm64.apk` | PASS Success | Redmi 68486ddd | APK +3 | primer intento; no USER_RESTRICTED |
 | 2026-09-11 | T06 Pedido | smoke AC-03 | cliente seed: catálogo → carrito → confirmar contraentrega | PASS | Redmi + staging | pedido `a6fb5a34-9662-46ba-908a-ff3c438a360e` | UI `Pedido enviado` / `A6FB5A34` / `$9.500 COP · Contraentrega`; SQL total 950000 = 450000+500000; estado `pendiente_comercio` |
 | 2026-09-11 | T06 Pedido | smoke AC-10 | comercio seed: bandeja Nuevos → Aceptar pedido | PASS | Redmi + staging | mismo pedido | UI `Cliente Piloto` / `Nuevo` → `Aceptado` + `Marcar preparado`; evento `pendiente_comercio`→`aceptado` |
+| 2026-09-11 | T06 Pedido | pipeline Actions | workflow `CI` run 4 · jobs `verify` + `build_apk` | PASS | GitHub Actions ubuntu-latest Flutter 3.47.2 | `cd22121` | https://github.com/wcmg1000-hue/wammetka/actions/runs/34659992798 |
 
 Solo usar `PASS` cuando el resultado haya sido observado. No guardar secretos ni datos personales.

@@ -29,7 +29,7 @@
 | T03 | Datos | Proyecto Supabase Wammetka + migraciones + RLS + seed | T01 | Seed listo; RLS +/− OK en local | TODO | Cloud schema+seed; tokens Auth `''`; GRANT helpers RLS. Docker local N/A. No DONE |
 | T04 | Smoke | 1 escritura cloud desde el teléfono (pedido o perfil) | T03 | Visible en Table Editor | DONE | `Guardar perfil` → UI `Perfil guardado`; `profiles.telefono` del cliente seed = `3001234567` |
 | T05 | Auth | Login por rol + **3 tests núcleo** | T03 | Entra/sale + tests auth / no-puede / validación | DONE | Tests núcleo + live. Teléfono: `Hola, Cliente Piloto` / `Rol: cliente` → `Cerrar sesión` → login |
-| T06 | Rebanada | Catálogo + carrito + confirmar + bandeja comercio | T05 | AC-01…AC-10 con dueño; smoke teléfono | DONE | APK +3 Redmi; pedido `a6fb5a34-…360e` `pendiente_comercio`→`aceptado`; total 950000 = 450000+500000; `test/pedido_nucleo_test.dart` |
+| T06 | Rebanada | Catálogo + carrito + confirmar + bandeja comercio | T05 | AC-01…AC-10 con dueño; smoke teléfono | DONE | APK +3 Redmi; pedido `a6fb5a34-…360e` aceptado; CI https://github.com/wcmg1000-hue/wammetka/actions/runs/34659992798 |
 | T07 | Auto-update | `app_config` + SHA-256 + diálogo | T06 | Update en teléfono | TODO | |
 
 _Una fila = una cosa comprobable. No “hacer el módulo X completo”._
