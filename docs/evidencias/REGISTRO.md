@@ -50,5 +50,6 @@
 | 2026-09-11 | T08 Despacho | analyze + tests | `flutter analyze` + `flutter test` | PASS | local Flutter 3.47.2 | `despacho_nucleo_test` + AC-09 | transiciones + cliente no marca entregado |
 | 2026-09-11 | T08 Despacho | RPC seed `reparto@` | aceptar_servicio → recogido → entregado | PASS | staging | pedido `a6fb5a34-9662-46ba-908a-ff3c438a360e` | eventos `preparado→asignado→recogido→entregado` nota `Entregado en porteria` |
 | 2026-09-11 | T08 Despacho | smoke teléfono | login `reparto@` en APK +6 | FAIL | Redmi 68486ddd | `versionCode=6` | UI `No hay red` (ping a host OK). **T08 no DONE** |
+| 2026-09-11 | T08 Despacho | pipeline Actions | workflow `CI` · jobs `verify` + `build_apk` | PASS | GitHub Actions | `2042932` | https://github.com/wcmg1000-hue/wammetka/actions/runs/34664291940 |
 
 Solo usar `PASS` cuando el resultado haya sido observado. No guardar secretos ni datos personales.

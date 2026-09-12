@@ -38,7 +38,7 @@ _Una fila = una cosa comprobable. No “hacer el módulo X completo”._
 
 | ID | Módulo | Tarea (1 acción) | Depende | DoD verificable | Estado | Evidencia |
 |---|---|---|---|---|---|---|
-| T08 | Despacho | Aceptar → asignar repartidor → estados recogido/entregado | T06 | Pedido llega a `entregado` con evento | DOING | RPC `a6fb5a34-…360e` → `entregado` + eventos; smoke Redmi login `No hay red` (no DONE) |
+| T08 | Despacho | Aceptar → asignar repartidor → estados recogido/entregado | T06 | Pedido llega a `entregado` con evento | DOING | RPC `a6fb5a34-…360e` → `entregado`; CI https://github.com/wcmg1000-hue/wammetka/actions/runs/34664291940 ; smoke Redmi login falló |
 | T09 | Pagos | Adaptador pasarela sandbox + webhook idempotente | T08 | Pedido prepago autorizado | TODO | |
 | T10 | Liquidación | Corte comercio/repartidor con extracto | T09 | Neto explicable por pedido | TODO | |
 
