@@ -46,5 +46,9 @@
 | 2026-09-11 | T07 Update | smoke AC-11 | abrir app → diálogo → Actualizar ahora | PASS | Redmi 68486ddd | instalado 4 vs remoto 5 | UI `Nueva versión disponible` / `Actualizar ahora` |
 | 2026-09-11 | T07 Update | smoke hash+install | descarga + SHA-256 + instalador | PASS | Redmi 68486ddd | `dumpsys` `versionCode=5` | hash local +5 = remoto (minúsculas); no mismatch; Xiaomi aviso de riesgos aceptado; reopen sin diálogo |
 | 2026-09-11 | T07 Update | pipeline Actions | workflow `CI` · jobs `verify` + `build_apk` | PASS | GitHub Actions ubuntu-latest Flutter 3.47.2 | `8084d00` | https://github.com/wcmg1000-hue/wammetka/actions/runs/34662746664 |
+| 2026-09-11 | Converge P0 | G/W/T + regresión §3 | checklist TASKS + QA_MINIMO | PASS | docs | AC-09 `test` canCancelCliente | Sin huérfanos AC-01…AC-11; placeholders 0 |
+| 2026-09-11 | T08 Despacho | analyze + tests | `flutter analyze` + `flutter test` | PASS | local Flutter 3.47.2 | `despacho_nucleo_test` + AC-09 | transiciones + cliente no marca entregado |
+| 2026-09-11 | T08 Despacho | RPC seed `reparto@` | aceptar_servicio → recogido → entregado | PASS | staging | pedido `a6fb5a34-9662-46ba-908a-ff3c438a360e` | eventos `preparado→asignado→recogido→entregado` nota `Entregado en porteria` |
+| 2026-09-11 | T08 Despacho | smoke teléfono | login `reparto@` en APK +6 | FAIL | Redmi 68486ddd | `versionCode=6` | UI `No hay red` (ping a host OK). **T08 no DONE** |
 
 Solo usar `PASS` cuando el resultado haya sido observado. No guardar secretos ni datos personales.

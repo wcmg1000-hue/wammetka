@@ -268,6 +268,12 @@ class _CommerceOrderDetailScreenState
                     onPressed: _busy ? null : _preparado,
                     child: const Text('Marcar preparado'),
                   ),
+                if (pedido.estado == 'preparado')
+                  const Text(
+                    'Ofertado a los repartidores de la zona.',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
               ],
             ),
     );

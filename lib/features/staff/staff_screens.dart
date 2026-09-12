@@ -7,25 +7,6 @@ import '../order/money.dart';
 import '../order/order_models.dart';
 import '../order/order_rules.dart';
 
-class RepartoServiciosScreen extends StatelessWidget {
-  const RepartoServiciosScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Padding(
-        padding: EdgeInsets.all(24),
-        child: Text(
-          'No hay servicios disponibles',
-          textAlign: TextAlign.center,
-          maxLines: 3,
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-    );
-  }
-}
-
 class AdminPedidosScreen extends ConsumerStatefulWidget {
   const AdminPedidosScreen({super.key});
 

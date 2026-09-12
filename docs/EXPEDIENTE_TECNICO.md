@@ -385,9 +385,10 @@ Auditoría: `docs/manual/AUDITORIA_NAVEGACION.md` (cuando haya UI).
 | AC-06 | Pedido | Carrito de comercio A | Agrega SKU de comercio B | Diálogo vaciar o rechazo; no mezcla | `test` | `CartController.tryAdd` mix + `replaceWith` |
 | AC-07 | Pedido | Stock = 1 | Confirma cantidad 2 | Error stock; stock intacto | `test` | `cantidadVsStock` + tryAdd noStock |
 | AC-08 | Pedido | Cliente con 3 pedidos pendientes | Intenta un 4.º | Error tope; no crea | `test` | `OrderRules.canConfirm` tope 3 |
-| AC-09 | Pedido | Pedido `pendiente_comercio` > 10 min | Cliente cancela | Estado `cancelado`; stock revertido | `smoke` | T06 UI Cancelar pedido (RPC lista; no ejercido en smoke +3) |
+| AC-09 | Pedido | Pedido `pendiente_comercio` (SLA suavizado) | Cliente cancela | Estado `cancelado`; stock revertido | `test` | `OrderRules.canCancelCliente` + RPC `cancelar_pedido` |
 | AC-10 | Pedido | Comercio dueño | Abre bandeja | Ve el pedido nuevo y puede aceptar | `smoke` | Redmi bandeja `Cliente Piloto` → `Aceptado` |
 | AC-11 | Update | `version_code` remoto > local | Arranca app | Ofrece/descarga update; si sha256 no coincide no instala | `smoke` + `test` | T07 Redmi 4→5; `update_nucleo_test` hash/versionCode |
+| AC-12 | Despacho | Pedido `preparado` en zona del repartidor | Acepta servicio → recogido → entregado + nota | Estado `entregado` y evento `recogido`→`entregado` | `test` + RPC | T08 `despacho_nucleo_test`; RPC seed; smoke Redmi pendiente (login red) |
 
 Casos: éxito · error · vacío · **sin permiso** · excepción `CG.challenge` · sin red (mensaje, no éxito falso).  
 Plantilla y 3 tests mínimos: `docs/QA_MINIMO.md`. Sin fila `test` o `smoke` → no Converge.

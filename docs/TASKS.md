@@ -7,9 +7,9 @@
 **Flujo crítico:** Cliente confirma pedido contraentrega; el comercio lo ve y puede aceptarlo  
 **Dispositivo de prueba:** teléfono físico + APK arm64 (web Chrome = complemento)  
 **Remoto CI:** GitHub Actions  
-**Tarea actual:** _(ninguna DOING; siguiente T08)_  
+**Tarea actual:** T08  
 
-> T07 **DONE** — diálogo + descarga + SHA-256 + instalador en Redmi 68486ddd (`versionCode` 4 → 5).  
+> T08 **DOING** — despacho hasta `entregado` + evento. Converge P0 en curso (AC-09).  
 
 ## Estados
 
@@ -38,7 +38,7 @@ _Una fila = una cosa comprobable. No “hacer el módulo X completo”._
 
 | ID | Módulo | Tarea (1 acción) | Depende | DoD verificable | Estado | Evidencia |
 |---|---|---|---|---|---|---|
-| T08 | Despacho | Aceptar → asignar repartidor → estados recogido/entregado | T06 | Pedido llega a `entregado` con evento | TODO | |
+| T08 | Despacho | Aceptar → asignar repartidor → estados recogido/entregado | T06 | Pedido llega a `entregado` con evento | DOING | RPC `a6fb5a34-…360e` → `entregado` + eventos; smoke Redmi login `No hay red` (no DONE) |
 | T09 | Pagos | Adaptador pasarela sandbox + webhook idempotente | T08 | Pedido prepago autorizado | TODO | |
 | T10 | Liquidación | Corte comercio/repartidor con extracto | T09 | Neto explicable por pedido | TODO | |
 
@@ -61,15 +61,15 @@ T01 scaffold → T02 CI (format+analyze+test; build arm64 en default) → T03 se
 
 Máx. ~10 minutos (incluye regresión corta). Detalle: `docs/QA_MINIMO.md`.
 
-- [ ] Alcance en la **nav del rol** (no huérfano).
-- [ ] Cada G/W/T del módulo (incl. challenge) tiene `test` o `smoke` en expediente §12 — **sin huérfanos**.
-- [ ] Cero placeholders / `onPressed` vacío.
-- [ ] Analyze + **3 tests núcleo** + CI + dispositivo OK.
-- [ ] Regresión corta (8–12) de `QA_MINIMO.md` §3 pasada.
-- [ ] `CHECKLIST` + `REGISTRO` + bitácora al día.
-- [ ] Error típico nuevo → ficha en `LECCIONES_APRENDIDAS.md`.
+- [x] Alcance en la **nav del rol** (no huérfano). Cliente: Inicio/Carrito/Pedidos/Cuenta. Comercio: Pedidos/Catálogo. Repartidor: Servicios (T08).
+- [x] Cada G/W/T del módulo (incl. challenge) tiene `test` o `smoke` en expediente §12 — **sin huérfanos**. AC-09 ahora `test` (`canCancelCliente`).
+- [x] Cero placeholders / `onPressed` vacío.
+- [x] Analyze + **3 tests núcleo** + CI + dispositivo OK. REGISTRO T05/T06/T07.
+- [x] Regresión corta (8–12) de `QA_MINIMO.md` §3 pasada.
+- [x] `CHECKLIST` + `REGISTRO` + bitácora al día.
+- [x] Error típico nuevo → ficha en `LECCIONES_APRENDIDAS.md`. Diálogo de update vs `go()` del splash (2.6).
 
-**Módulo cerrado:** _(nombre)_ · **Fecha:** _(_)_ · **Notas:** _(_)_
+**Módulo cerrado:** P0 Pedido contraentrega (T01–T07) · **Fecha:** 2026-09-11 · **Notas:** AC-09 cubierto con test; T08 Despacho abierto aparte.
 
 ## Frases `CG.*`
 

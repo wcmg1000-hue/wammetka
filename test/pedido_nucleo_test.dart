@@ -175,4 +175,13 @@ void main() {
       expect(OrderRules.sameComercio('a', 'b'), isFalse);
     });
   });
+
+  group('AC-09 — cancelar pendiente_comercio', () {
+    test('cliente puede cancelar solo si espera al comercio', () {
+      expect(OrderRules.canCancelCliente('pendiente_comercio'), isTrue);
+      expect(OrderRules.canCancelCliente('aceptado'), isFalse);
+      expect(OrderRules.canCancelCliente('preparado'), isFalse);
+      expect(OrderRules.canCancelCliente('entregado'), isFalse);
+    });
+  });
 }

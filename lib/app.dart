@@ -19,10 +19,35 @@ import 'features/order/commerce_orders_screen.dart';
 import 'features/order/order_detail_screen.dart';
 import 'features/order/order_ok_screen.dart';
 import 'features/order/orders_list_screen.dart';
+import 'features/dispatch/reparto_screens.dart';
 import 'features/staff/staff_screens.dart';
 import 'features/update/update_host.dart';
 import 'routing/navigator_key.dart';
 import 'widgets/app_shells.dart';
+
+const kRepartoPaths = <String>[
+  '/reparto/servicios',
+  '/reparto/en-curso',
+  '/reparto/cuenta',
+];
+
+const kRepartoDestinations = <NavigationDestination>[
+  NavigationDestination(
+    icon: Icon(Icons.delivery_dining_outlined),
+    selectedIcon: Icon(Icons.delivery_dining),
+    label: 'Servicios',
+  ),
+  NavigationDestination(
+    icon: Icon(Icons.local_shipping_outlined),
+    selectedIcon: Icon(Icons.local_shipping),
+    label: 'En curso',
+  ),
+  NavigationDestination(
+    icon: Icon(Icons.person_outline),
+    selectedIcon: Icon(Icons.person),
+    label: 'Cuenta',
+  ),
+];
 
 GoRouter createWammetkaRouter() {
   return GoRouter(
@@ -88,43 +113,35 @@ GoRouter createWammetkaRouter() {
       ),
       GoRoute(
         path: '/reparto/servicios',
-        builder: (_, _) => const StaffShell(
+        builder: (_, _) => StaffShell(
           index: 0,
-          paths: <String>['/reparto/servicios', '/reparto/cuenta'],
-          destinations: <NavigationDestination>[
-            NavigationDestination(
-              icon: Icon(Icons.delivery_dining_outlined),
-              selectedIcon: Icon(Icons.delivery_dining),
-              label: 'Servicios',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.person_outline),
-              selectedIcon: Icon(Icons.person),
-              label: 'Cuenta',
-            ),
-          ],
-          child: RepartoServiciosScreen(),
+          paths: kRepartoPaths,
+          destinations: kRepartoDestinations,
+          child: const RepartoServiciosScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/reparto/en-curso',
+        builder: (_, _) => StaffShell(
+          index: 1,
+          paths: kRepartoPaths,
+          destinations: kRepartoDestinations,
+          child: const RepartoServiciosScreen(enCurso: true),
         ),
       ),
       GoRoute(
         path: '/reparto/cuenta',
-        builder: (_, _) => const StaffShell(
-          index: 1,
-          paths: <String>['/reparto/servicios', '/reparto/cuenta'],
-          destinations: <NavigationDestination>[
-            NavigationDestination(
-              icon: Icon(Icons.delivery_dining_outlined),
-              selectedIcon: Icon(Icons.delivery_dining),
-              label: 'Servicios',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.person_outline),
-              selectedIcon: Icon(Icons.person),
-              label: 'Cuenta',
-            ),
-          ],
-          child: AccountScreen(),
+        builder: (_, _) => StaffShell(
+          index: 2,
+          paths: kRepartoPaths,
+          destinations: kRepartoDestinations,
+          child: const AccountScreen(),
         ),
+      ),
+      GoRoute(
+        path: '/reparto/:id',
+        builder: (_, state) =>
+            RepartoPedidoDetailScreen(pedidoId: state.pathParameters['id']!),
       ),
       GoRoute(
         path: '/admin/pedidos',

@@ -3,7 +3,7 @@
 Marca `[x]` solo con evidencia observada en `docs/evidencias/REGISTRO.md`. Usa `N/A — motivo` cuando una ruta no aplique.
 
 **Proyecto:** Wammetka  
-**Fase actual:** 3 — Rebanada P0; T01/T02/T04/T05/T06/T07 DONE. T03 local Docker N/A. Siguiente = T08 o Converge P0.
+**Fase actual:** 4 — Converge P0 OK. T08 Despacho DOING. T03 local Docker N/A.
 
 ## Fase 0 — Preparación reproducible
 
@@ -97,16 +97,16 @@ Orden: T01 scaffold → T02 CI → T03/T04 seed+smoke → T05 auth+tests → T06
 
 ### Módulo: P0 Pedido contraentrega (T01–T07)
 
-- [ ] Spec / criterio de la tarea `TASKS.md` leídos.
-- [ ] Criterios de aceptación y matriz rol × acción cubiertos.
-- [ ] **Una sola** tarea atómica `TODO` a la vez (`CG.implement`).
-- [ ] Validación, errores, loading, vacío, offline y concurrencia tratados según aplique.
-- [ ] Tareas pesadas no bloquean la UI.
-- [ ] Tests del núcleo: los 3 mínimos existen; ampliar si la tarea tocó dominio.
-- [ ] Puerta DONE: format/analyze + tests núcleo + smoke en dispositivo del perfil + **REGISTRO**.
-- [ ] Build verde y pipeline del remoto verde.
-- [ ] **Converge** OK: G/W/T sin huérfanos + regresión corta (`QA_MINIMO.md`).
-- [ ] Documentación y evidencia actualizadas.
+- [x] Spec / criterio de la tarea `TASKS.md` leídos.
+- [x] Criterios de aceptación y matriz rol × acción cubiertos. AC-01…AC-11 con dueño.
+- [x] **Una sola** tarea atómica `TODO` a la vez (`CG.implement`). T08 es la DOING.
+- [x] Validación, errores, loading, vacío, offline y concurrencia tratados según aplique.
+- [x] Tareas pesadas no bloquean la UI.
+- [x] Tests del núcleo: los 3 mínimos existen; ampliar si la tarea tocó dominio.
+- [x] Puerta DONE: format/analyze + tests núcleo + smoke en dispositivo del perfil + **REGISTRO**.
+- [x] Build verde y pipeline del remoto verde.
+- [x] **Converge** OK: G/W/T sin huérfanos + regresión corta (`QA_MINIMO.md`). 2026-09-11.
+- [x] Documentación y evidencia actualizadas.
 
 ### Pantalla: __________ (si aplica)
 

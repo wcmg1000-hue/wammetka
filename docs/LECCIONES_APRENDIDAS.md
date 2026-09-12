@@ -564,6 +564,7 @@ Releer el MD → listar destinos/nav → cablear o documentar exclusión → no 
 - **DoD:** `version_code` / `latest_version` > instalada dispara el flujo; descarga en background; instala con misma firma; SHA-256 si el remoto no está vacío; URL pública verificable.
 - **Cómo resolverlo:** abrir `apk_url` en el navegador del teléfono; comparar `version_code`/`latest_version` vs `package_info`; policies del bucket; confirmar que el dispositivo tiene el build recién publicado.
 - **Chicken-egg:** si el dispositivo tiene UI de update **anterior al fix**, o cambió la keystore, la auto-update no puede instalar la versión nueva. Instalar a mano desde `apk_url` (desinstalar una vez si cambió la firma). Ver **2.8** y **2.9**.
+- **Diálogo vs splash:** si el chequeo muestra el diálogo en `/` y el splash hace `go()`, el overlay se cierra. Esperar a una ruta distinta de splash antes de `showDialog`.
 
 ### 2.7 `[General]` `[Flutter]` Uploads grandes (APK a Storage): auth OK pero el binario no llega
 

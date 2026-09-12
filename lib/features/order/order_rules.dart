@@ -88,6 +88,58 @@ abstract final class OrderRules {
     }
     return cantidadVsStock(cantidad, stock);
   }
+
+  /// AC-09: el cliente cancela solo mientras espera al comercio (SLA suavizado).
+  static bool canCancelCliente(String estado) => estado == 'pendiente_comercio';
+}
+
+/// Transiciones de despacho (T08). La RPC es la fuente de verdad.
+abstract final class DispatchRules {
+  static bool isOferta(String estado, String? repartidorId) {
+    return (estado == 'aceptado' || estado == 'preparado') &&
+        (repartidorId == null || repartidorId.isEmpty);
+  }
+
+  static bool canAcceptServicio({
+    required String rol,
+    required String estado,
+    required String? repartidorId,
+  }) {
+    return rol == 'repartidor' && isOferta(estado, repartidorId);
+  }
+
+  static bool canMarkRecogido({
+    required String rol,
+    required String estado,
+    required String actorId,
+    required String? repartidorId,
+  }) {
+    return rol == 'repartidor' &&
+        estado == 'asignado' &&
+        repartidorId == actorId;
+  }
+
+  static bool canMarkEntregado({
+    required String rol,
+    required String estado,
+    required String actorId,
+    required String? repartidorId,
+  }) {
+    return rol == 'repartidor' &&
+        estado == 'recogido' &&
+        repartidorId == actorId;
+  }
+
+  static String? entregaNota(String? value) {
+    final text = value?.trim() ?? '';
+    if (text.length < 3) {
+      return 'Escribe una nota de entrega (mínimo 3 caracteres)';
+    }
+    if (text.length > 180) {
+      return 'La nota no puede pasar de 180 caracteres';
+    }
+    return null;
+  }
 }
 
 String pedidoEstadoLabel(String estado) {

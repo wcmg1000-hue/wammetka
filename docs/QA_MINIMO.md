@@ -33,15 +33,15 @@ Ampliar solo si un bug se repite. No un test por widget. E2E = `LECCIONES` **4.2
 
 Máx. ~10 minutos. 8–12 casos del flujo crítico, no de todo el sistema.
 
-- [ ] Happy path del flujo crítico (rol principal)
-- [ ] Caso error / validación
-- [ ] Vacío o sin datos
-- [ ] Rol que **no puede** (permiso denegado)
-- [ ] Excepción acordada en `CG.challenge` (si hubo)
-- [ ] Smoke cloud / dato visible (si nube)
-- [ ] RLS/rules +/− ya pasaron en 2D (o se re-verifica lo tocado)
-- [ ] Si Android APK: auto-update o N/A; ideal **2.º dispositivo** si el módulo es update
-- [ ] Nav del rol: la función no está huérfana
-- [ ] Sin placeholders / `onPressed` vacío
+- [x] Happy path del flujo crítico (rol principal) — smoke AC-03/10 pedido `a6fb5a34-…360e`
+- [x] Caso error / validación — `auth_nucleo` + `OrderRules.canConfirm` / dirección
+- [x] Vacío o sin datos — login correo vacío (widget) + carrito mix/vacío
+- [x] Rol que **no puede** (permiso denegado) — cliente no acepta / no autoascenso
+- [x] Excepción acordada en `CG.challenge` (si hubo) — AC-09 cancelar `test`; R6 suavizado
+- [x] Smoke cloud / dato visible (si nube) — perfil + pedido aceptado en staging
+- [x] RLS/rules +/− ya pasaron en 2D (o se re-verifica lo tocado) — live no-puede + GRANT helpers
+- [x] Si Android APK: auto-update o N/A; ideal **2.º dispositivo** si el módulo es update — T07 Redmi 4→5 (un dispositivo del perfil)
+- [x] Nav del rol: la función no está huérfana
+- [x] Sin placeholders / `onPressed` vacío
 
 Marcar solo con evidencia (REGISTRO o test). El resto del Converge sigue en `TASKS.md`.

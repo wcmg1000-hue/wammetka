@@ -34,6 +34,7 @@ class Pedido {
     required this.totalCentavos,
     required this.direccionTexto,
     required this.createdAt,
+    this.repartidorId,
     this.comercioNombre,
     this.comercioTelefono,
     this.clienteNombre,
@@ -52,6 +53,7 @@ class Pedido {
   final int totalCentavos;
   final String direccionTexto;
   final DateTime createdAt;
+  final String? repartidorId;
   final String? comercioNombre;
   final String? comercioTelefono;
   final String? clienteNombre;
@@ -60,6 +62,7 @@ class Pedido {
 
   Pedido copyWith({
     String? estado,
+    String? repartidorId,
     String? comercioNombre,
     String? comercioTelefono,
     String? clienteNombre,
@@ -78,6 +81,7 @@ class Pedido {
       totalCentavos: totalCentavos,
       direccionTexto: direccionTexto,
       createdAt: createdAt,
+      repartidorId: repartidorId ?? this.repartidorId,
       comercioNombre: comercioNombre ?? this.comercioNombre,
       comercioTelefono: comercioTelefono ?? this.comercioTelefono,
       clienteNombre: clienteNombre ?? this.clienteNombre,
@@ -110,6 +114,7 @@ class Pedido {
       createdAt:
           DateTime.tryParse(map['created_at'] as String? ?? '') ??
           DateTime.now(),
+      repartidorId: map['repartidor_id'] as String?,
       items: items,
     );
   }

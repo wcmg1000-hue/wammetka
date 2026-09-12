@@ -75,7 +75,7 @@ AC-04…AC-09 (cerrado, cobertura, mix, stock, tope, cancelar). Dos clientes el 
 ## 13. Criterios de aceptación
 
 - [x] AC-03 guarda total correcto
-- [x] AC-04 a AC-10 (AC-09 RPC lista; smoke cancelar no corrido en +3)
+- [x] AC-04 a AC-10 (AC-09: `test` `canCancelCliente`; RPC `cancelar_pedido`)
 
 ## 14. Pruebas mínimas
 

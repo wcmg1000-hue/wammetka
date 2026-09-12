@@ -15,4 +15,13 @@ abstract final class AuthPolicy {
 
   static bool canReadForeignPedidos(AppRole role) =>
       role == AppRole.admin || role == AppRole.operacion;
+
+  static bool canAcceptServicio(AppRole role) => role == AppRole.repartidor;
+
+  static bool canMarkEntregado(AppRole role) => role == AppRole.repartidor;
+
+  static bool canSeeComisionWammetka(AppRole role) =>
+      role == AppRole.admin ||
+      role == AppRole.finanzas ||
+      role == AppRole.operacion;
 }

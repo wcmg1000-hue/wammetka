@@ -32,6 +32,8 @@ void main() {
       expect(AuthPolicy.canCreatePedido(AppRole.comercio), isFalse);
       expect(AuthPolicy.canReadForeignPedidos(AppRole.cliente), isFalse);
       expect(AuthPolicy.canReadForeignPedidos(AppRole.comercio), isFalse);
+      expect(AuthPolicy.canMarkEntregado(AppRole.cliente), isFalse);
+      expect(AuthPolicy.canMarkEntregado(AppRole.repartidor), isTrue);
     });
   });
 

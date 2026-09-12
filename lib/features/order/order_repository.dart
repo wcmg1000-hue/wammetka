@@ -131,6 +131,46 @@ class OrderRepository {
     }
   }
 
+  Future<Pedido> aceptarServicio(String pedidoId) async {
+    return _rpcPedido('aceptar_servicio', <String, dynamic>{
+      'p_pedido_id': pedidoId,
+    });
+  }
+
+  Future<Pedido> marcarRecogido(String pedidoId) async {
+    return _rpcPedido('marcar_pedido_recogido', <String, dynamic>{
+      'p_pedido_id': pedidoId,
+    });
+  }
+
+  Future<Pedido> marcarEntregado({
+    required String pedidoId,
+    required String nota,
+  }) async {
+    final noteErr = DispatchRules.entregaNota(nota);
+    if (noteErr != null) {
+      throw OrderAppException(noteErr);
+    }
+    return _rpcPedido('marcar_pedido_entregado', <String, dynamic>{
+      'p_pedido_id': pedidoId,
+      'p_nota': nota.trim(),
+    });
+  }
+
+  Future<Pedido> _rpcPedido(String name, Map<String, dynamic> params) async {
+    final client = _requireClient();
+    try {
+      final raw = await client
+          .rpc(name, params: params)
+          .timeout(const Duration(seconds: 20));
+      return Pedido.fromMap(asPedidoMap(raw));
+    } on TimeoutException {
+      throw const OrderAppException(kOrderOfflineMessage);
+    } catch (error) {
+      throw OrderAppException(mapOrderFailure(error));
+    }
+  }
+
   Future<Pedido> marcarPreparado(String pedidoId) async {
     final client = _requireClient();
     try {
@@ -154,7 +194,7 @@ class OrderRepository {
       var query = client
           .from('pedidos')
           .select(
-            'id, cliente_id, comercio_id, zona_id, estado, metodo_pago, subtotal_centavos, domicilio_centavos, total_centavos, direccion_texto, created_at, pedido_items(nombre_snapshot, precio_centavos, cantidad, subtotal_centavos)',
+            'id, cliente_id, comercio_id, zona_id, repartidor_id, estado, metodo_pago, subtotal_centavos, domicilio_centavos, total_centavos, direccion_texto, created_at, pedido_items(nombre_snapshot, precio_centavos, cantidad, subtotal_centavos)',
           );
       if (id != null) {
         query = query.eq('id', id);
