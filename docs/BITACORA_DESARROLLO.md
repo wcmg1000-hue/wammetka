@@ -11,10 +11,10 @@
 
 | Totales | Valor |
 |---------|-------|
-| Total minutos acumulados | 190 |
-| Total horas (min ÷ 60) | 3.17 |
-| Horas facturables | 3.17 (redondeo a criterio de cobro) |
-| Notas cobro (redondeo, no cobrables) | revisión de tomos + docs CG + T01–T06 + T02 CI |
+| Total minutos acumulados | 235 |
+| Total horas (min ÷ 60) | 3.92 |
+| Horas facturables | 3.92 (redondeo a criterio de cobro) |
+| Notas cobro (redondeo, no cobrables) | revisión de tomos + docs CG + T01–T07 + T02 CI |
 
 ---
 
@@ -29,6 +29,7 @@
 | 5 | 2026-09-11 | 18:13 | 18:26 | 13 | proyecto completo | Flutter+Supabase | APK +2 con dart-define cliente; botón Guardar perfil | Xiaomi `INSTALL_FAILED_USER_RESTRICTED` | Teléfono físico no AVD; defines sin seed | T01/T04/T05 esperan aceptar install USB | `entregas/apk/wammetka-v0.1.0+2-arm64.apk` |
 | 6 | 2026-09-11 | 18:29 | 18:36 | 7 | proyecto completo | Flutter+Supabase | Reintento install + smoke T01/T04/T05 en Redmi | — | USB install al 2.º intento; uiautomator sin secretos | T06 catálogo/pedido | APK +2 · `telefono=3001234567` |
 | 7 | 2026-09-11 | 18:34 | 19:01 | 27 | proyecto completo | Flutter+Supabase | T06 catálogo+carrito+confirmar+bandeja; RPC aceptar; APK +3; smoke AC-03/10 | uiautomator content-desc con tab; tap AppBar vs botón Confirmar | Seed 2 tiendas para no-mezclar; tap el Confirmar de abajo | T07 auto-update; AC-09 cancelar no smoke | pedido `a6fb5a34-…360e` aceptado; `entregas/apk/wammetka-v0.1.0+3-arm64.apk` |
+| 8 | 2026-09-11 | 19:05 | 19:50 | 45 | proyecto completo | Flutter+Supabase | T07 auto-update `app_config`+SHA-256; APK +4 instalada; remoto +5 | diálogo perdido si se muestra en splash (`go()`); Xiaomi aviso de riesgos | Esperar ruta ≠ `/` antes del diálogo; hash minúsculas | Converge P0 / T08 | Redmi 4→5; hash `811d0e7d…`; `entregas/apk/wammetka-v0.1.0+4-arm64.apk` |
 
 \*Modo: `proyecto completo` / `demo rápido` / `solo fix` / `solo docs`
 

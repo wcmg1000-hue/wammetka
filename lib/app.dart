@@ -20,10 +20,13 @@ import 'features/order/order_detail_screen.dart';
 import 'features/order/order_ok_screen.dart';
 import 'features/order/orders_list_screen.dart';
 import 'features/staff/staff_screens.dart';
+import 'features/update/update_host.dart';
+import 'routing/navigator_key.dart';
 import 'widgets/app_shells.dart';
 
 GoRouter createWammetkaRouter() {
   return GoRouter(
+    navigatorKey: wammetkaNavigatorKey,
     initialLocation: '/',
     routes: <RouteBase>[
       GoRoute(path: '/', builder: (_, _) => const SplashScreen()),
@@ -181,6 +184,9 @@ class WammetkaApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: WammetkaTheme.light(),
         routerConfig: _router,
+        builder: (context, child) {
+          return UpdateHost(child: child ?? const SizedBox.shrink());
+        },
       ),
     );
   }

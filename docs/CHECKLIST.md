@@ -3,7 +3,7 @@
 Marca `[x]` solo con evidencia observada en `docs/evidencias/REGISTRO.md`. Usa `N/A — motivo` cuando una ruta no aplique.
 
 **Proyecto:** Wammetka  
-**Fase actual:** 3 — Rebanada P0; T01/T02/T04/T05/T06 DONE. **Siguiente = T07** (auto-update). T03 local Docker N/A.
+**Fase actual:** 3 — Rebanada P0; T01/T02/T04/T05/T06/T07 DONE. T03 local Docker N/A. Siguiente = T08 o Converge P0.
 
 ## Fase 0 — Preparación reproducible
 
@@ -88,7 +88,7 @@ Orden: T01 scaffold → T02 CI → T03/T04 seed+smoke → T05 auth+tests → T06
 - [x] Flujo crítico UI/API → auth → autorización → dato (**sin mocks permanentes**). Pedido seed en nube + bandeja comercio aceptó (T06).
 - [x] Given/When/Then con dueño (`test` o `smoke` en §12); **3 tests núcleo** (auth / no-puede / validación) — `QA_MINIMO.md`. Pedido: AC-03/07/04/06 en test; AC-03/10 smoke.
 - [x] Smoke en **dispositivo del perfil** (Android → APK + teléfono; web → navegador; etc.). Auth + pedido contraentrega + aceptar en Redmi 68486ddd.
-- [ ] **Auto-update** si Android APK directo; si no, N/A — motivo.
+- [x] **Auto-update** si Android APK directo; si no, N/A — motivo. Redmi 68486ddd `versionCode` 4 → 5; SHA-256 verificado.
 - [x] URL pipeline + PASS en `REGISTRO.md`.
 
 **Puerta:** flujo real en dispositivo del perfil + analyze/test/build verdes + REGISTRO.
@@ -161,13 +161,13 @@ Orden: T01 scaffold → T02 CI → T03/T04 seed+smoke → T05 auth+tests → T06
 
 > Si el proyecto **no** distribuye APK fuera de tienda: marcar todo `N/A — sin APK directo`.
 
-- [ ] Decisión: APK directo (auto-update ON) / Play o sin Android (`N/A`).
-- [ ] Spec `MODULO_ACTUALIZACION.md` seguida.
-- [ ] Fuente de verdad: **`versionCode` / `buildNumber`** vs `app_config.version_code` o Remote Config `version_code` (semver `latest_version` solo si `version_code` es null).
-- [ ] APK firmado, **misma keystore**; publicación de `version_code` + `sha256` + `apk_url` (build: `--target-platform android-arm64` o split-per-abi arm64).
-- [ ] Tras descargar: SHA-256 hex minúsculas; si el remoto no está vacío y no coincide → borrar, no instalar, error en español.
-- [ ] Descarga no bloqueante, permisos, prueba en teléfono sin romper la app si falla red.
-- [ ] No-op en iOS; no usar si el canal es Google Play.
+- [x] Decisión: APK directo (auto-update ON) / Play o sin Android (`N/A`).
+- [x] Spec `MODULO_ACTUALIZACION.md` seguida.
+- [x] Fuente de verdad: **`versionCode` / `buildNumber`** vs `app_config.version_code` o Remote Config `version_code` (semver `latest_version` solo si `version_code` es null).
+- [x] APK firmado, **misma keystore**; publicación de `version_code` + `sha256` + `apk_url` (build: `--target-platform android-arm64` o split-per-abi arm64).
+- [x] Tras descargar: SHA-256 hex minúsculas; si el remoto no está vacío y no coincide → borrar, no instalar, error en español.
+- [x] Descarga no bloqueante, permisos, prueba en teléfono sin romper la app si falla red.
+- [x] No-op en iOS; no usar si el canal es Google Play.
 
 ## Notas
 
@@ -176,4 +176,5 @@ Orden: T01 scaffold → T02 CI → T03/T04 seed+smoke → T05 auth+tests → T06
 - 2026-09-11: APK `wammetka-v0.1.0+2-arm64.apk` (dart-define cliente). adb `68486ddd` Redmi 23129RA5FL. Install `USER_RESTRICTED` (Xiaomi: Instalar vía USB / aceptar diálogo). T01/T04/T05 no DONE.
 - 2026-09-11: Reintento install SUCCESS. T01/T04/T05 DONE en Redmi. Siguiente T06.
 - T03 no debe usar el project-ref de otro aplicativo de la org.
+- 2026-09-11: T07 DONE. Instalado 4 vs remoto 5; diálogo + hash OK; `dumpsys versionCode=5`. URL pública Storage `apk/releases/wammetka-v0.1.0+5-arm64.apk`.
 

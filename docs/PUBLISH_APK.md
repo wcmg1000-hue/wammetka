@@ -23,7 +23,7 @@ Calcular **SHA-256 hex en minúsculas** del archivo. El `versionCode` (entero de
    - `version_code` (entero; fuente de verdad)
    - `sha256` (hex minúsculas; vacío solo si se omite verificación, filas antiguas)
    - `apk_url`, `force_update`, `changelog`
-4. Script de referencia del proyecto: `scripts/upload_apk.ps1` (crear en la app; no vive en el molde). Auth y claves **solo** en variables CI o `.env` local.
+4. Script de referencia: `scripts/upload_apk.ps1`. Auth seed admin (no `service_role` en la app). Sube a `apk/releases/…` y hace `PATCH` de `app_config` (`latest_version`, `version_code`, `sha256`, `apk_url`, `force_update`, `changelog`). Claves solo en `.env` local o secretos de CI.
 
 ## GitLab
 

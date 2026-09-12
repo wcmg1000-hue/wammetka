@@ -387,7 +387,7 @@ Auditoría: `docs/manual/AUDITORIA_NAVEGACION.md` (cuando haya UI).
 | AC-08 | Pedido | Cliente con 3 pedidos pendientes | Intenta un 4.º | Error tope; no crea | `test` | `OrderRules.canConfirm` tope 3 |
 | AC-09 | Pedido | Pedido `pendiente_comercio` > 10 min | Cliente cancela | Estado `cancelado`; stock revertido | `smoke` | T06 UI Cancelar pedido (RPC lista; no ejercido en smoke +3) |
 | AC-10 | Pedido | Comercio dueño | Abre bandeja | Ve el pedido nuevo y puede aceptar | `smoke` | Redmi bandeja `Cliente Piloto` → `Aceptado` |
-| AC-11 | Update | `version_code` remoto > local | Arranca app | Ofrece/descarga update; si sha256 no coincide no instala | `smoke` | T07 |
+| AC-11 | Update | `version_code` remoto > local | Arranca app | Ofrece/descarga update; si sha256 no coincide no instala | `smoke` + `test` | T07 Redmi 4→5; `update_nucleo_test` hash/versionCode |
 
 Casos: éxito · error · vacío · **sin permiso** · excepción `CG.challenge` · sin red (mensaje, no éxito falso).  
 Plantilla y 3 tests mínimos: `docs/QA_MINIMO.md`. Sin fila `test` o `smoke` → no Converge.
@@ -476,7 +476,7 @@ P0 no llama pasarela ni mapas. Payloads: webhook P1 se documentará en spec Pago
 | Auth | `MODULO_AUTH.md` | verify (test) | _(T05)_ | cliente / comercio |
 | Catálogo | `MODULO_CATALOGO.md` | verify | _(T06)_ | comercio |
 | Pedido | `MODULO_PEDIDO.md` | verify + smoke | _(T06)_ | cliente / comercio |
-| Auto-update | `MODULO_ACTUALIZACION.md` | build_apk | _(T07)_ | todos |
+| Auto-update | `MODULO_ACTUALIZACION.md` | build_apk | T07 | todos |
 | CI | `CI_CD.md` | format/analyze/test/build | T02 | — |
 
 ---

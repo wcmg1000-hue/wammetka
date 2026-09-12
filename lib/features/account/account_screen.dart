@@ -7,6 +7,7 @@ import '../../theme/wammetka_colors.dart';
 import '../auth/auth_errors.dart';
 import '../auth/auth_providers.dart';
 import '../catalog/catalog_providers.dart';
+import '../update/update_prompt.dart';
 
 class AccountScreen extends ConsumerStatefulWidget {
   const AccountScreen({super.key});
@@ -161,6 +162,13 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
             ),
           ],
           const SizedBox(height: 24),
+          OutlinedButton(
+            onPressed: _busy
+                ? null
+                : () => UpdatePrompt.maybeShow(context, fromUser: true),
+            child: const Text('Buscar actualización'),
+          ),
+          const SizedBox(height: 12),
           OutlinedButton(
             onPressed: _busy ? null : _guardarPerfil,
             child: const Text('Guardar perfil'),

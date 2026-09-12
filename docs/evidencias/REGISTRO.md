@@ -38,4 +38,12 @@
 | 2026-09-11 | T06 Pedido | smoke AC-10 | comercio seed: bandeja Nuevos → Aceptar pedido | PASS | Redmi + staging | mismo pedido | UI `Cliente Piloto` / `Nuevo` → `Aceptado` + `Marcar preparado`; evento `pendiente_comercio`→`aceptado` |
 | 2026-09-11 | T06 Pedido | pipeline Actions | workflow `CI` run 4 · jobs `verify` + `build_apk` | PASS | GitHub Actions ubuntu-latest Flutter 3.47.2 | `cd22121` | https://github.com/wcmg1000-hue/wammetka/actions/runs/34659992798 |
 
+| 2026-09-11 | T07 Update | analyze | `flutter analyze` | PASS (exit 0, 0 issues) | local Flutter 3.47.2 | `lib/features/update` | consola Agent |
+| 2026-09-11 | T07 Update | tests núcleo | `flutter test` | PASS 25 + 2 skip live | local | `test/update_nucleo_test.dart` | versionCode + SHA-256 + semver fallback |
+| 2026-09-11 | T07 Update | build APK arm64 | `flutter build apk --release --target-platform android-arm64 --build-name=0.1.0 --build-number=4 --dart-define-from-file=dart_defines.apk.json` | PASS (19.0 MB) | local | `entregas/apk/wammetka-v0.1.0+4-arm64.apk` | define cliente; sin seed/service_role |
+| 2026-09-11 | T07 Update | install APK +4 | `adb -s 68486ddd install -r …v0.1.0+4-arm64.apk` | PASS Success | Redmi 68486ddd | APK +4 con módulo | primer intento; no USER_RESTRICTED |
+| 2026-09-11 | T07 Update | remoto `app_config` | SELECT id=1 | PASS `version_code=5` | staging `wwhyypadkjjbgkmlbpss` | sha256 `811d0e7dac21593d33b9cd9326db35ee2b7db141fb1658d795143d937b561804` | URL `https://wwhyypadkjjbgkmlbpss.supabase.co/storage/v1/object/public/apk/releases/wammetka-v0.1.0+5-arm64.apk` · HEAD 200 |
+| 2026-09-11 | T07 Update | smoke AC-11 | abrir app → diálogo → Actualizar ahora | PASS | Redmi 68486ddd | instalado 4 vs remoto 5 | UI `Nueva versión disponible` / `Actualizar ahora` |
+| 2026-09-11 | T07 Update | smoke hash+install | descarga + SHA-256 + instalador | PASS | Redmi 68486ddd | `dumpsys` `versionCode=5` | hash local +5 = remoto (minúsculas); no mismatch; Xiaomi aviso de riesgos aceptado; reopen sin diálogo |
+
 Solo usar `PASS` cuando el resultado haya sido observado. No guardar secretos ni datos personales.

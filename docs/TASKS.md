@@ -7,9 +7,9 @@
 **Flujo crítico:** Cliente confirma pedido contraentrega; el comercio lo ve y puede aceptarlo  
 **Dispositivo de prueba:** teléfono físico + APK arm64 (web Chrome = complemento)  
 **Remoto CI:** GitHub Actions  
-**Tarea actual:** T07  
+**Tarea actual:** _(ninguna DOING; siguiente T08)_  
 
-> T06 **DONE**. Siguiente: T07 auto-update.  
+> T07 **DONE** — diálogo + descarga + SHA-256 + instalador en Redmi 68486ddd (`versionCode` 4 → 5).  
 
 ## Estados
 
@@ -30,7 +30,7 @@
 | T04 | Smoke | 1 escritura cloud desde el teléfono (pedido o perfil) | T03 | Visible en Table Editor | DONE | `Guardar perfil` → UI `Perfil guardado`; `profiles.telefono` del cliente seed = `3001234567` |
 | T05 | Auth | Login por rol + **3 tests núcleo** | T03 | Entra/sale + tests auth / no-puede / validación | DONE | Tests núcleo + live. Teléfono: `Hola, Cliente Piloto` / `Rol: cliente` → `Cerrar sesión` → login |
 | T06 | Rebanada | Catálogo + carrito + confirmar + bandeja comercio | T05 | AC-01…AC-10 con dueño; smoke teléfono | DONE | APK +3 Redmi; pedido `a6fb5a34-…360e` aceptado; CI https://github.com/wcmg1000-hue/wammetka/actions/runs/34659992798 |
-| T07 | Auto-update | `app_config` + SHA-256 + diálogo | T06 | Update en teléfono | TODO | |
+| T07 | Auto-update | `app_config` + SHA-256 + diálogo | T06 | Update en teléfono | DONE | Redmi 4→5; hash `811d0e7d…1804` OK; URL pública `apk/releases/wammetka-v0.1.0+5-arm64.apk` |
 
 _Una fila = una cosa comprobable. No “hacer el módulo X completo”._
 

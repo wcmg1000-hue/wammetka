@@ -70,7 +70,7 @@ Respuestas cortas. Si falta dato → supuesto numerado.
 | Ruta entrega APK | `entregas/apk/` · nombre `wammetka-v{version}+{versionCode}-arm64.apk` |
 | Auto-update APK | **Obligatorio** — `app_config` + Storage bucket `apk` + SHA-256 |
 | CI | **GitHub Actions** (`docs/CI_CD.md`) |
-| CD | no en T01–T06; job manual opcional desde T07 (`docs/PUBLISH_APK.md`) |
+| CD | job manual opcional (`scripts/upload_apk.ps1` + `docs/PUBLISH_APK.md`); no en el YAML base |
 | Fuera de alcance | iOS store, crédito propio, intermunicipal, pauta, planes B2B de pago, ERP contable completo (asientos) en P0 |
 
 ## Ritmo de entrega (profundidad de docs, no de CI)
