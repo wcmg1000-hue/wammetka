@@ -7,9 +7,9 @@
 **Flujo crítico:** Cliente confirma pedido contraentrega; el comercio lo ve y puede aceptarlo  
 **Dispositivo de prueba:** teléfono físico + APK arm64 (web Chrome = complemento)  
 **Remoto CI:** GitHub Actions  
-**Tarea actual:** T08  
+**Tarea actual:** T09  
 
-> T08 **DOING** — despacho hasta `entregado` + evento. Converge P0 en curso (AC-09).  
+> T08 **DONE**. Siguiente: T09 Pagos (pasarela sandbox + webhook idempotente).  
 
 ## Estados
 
@@ -38,7 +38,7 @@ _Una fila = una cosa comprobable. No “hacer el módulo X completo”._
 
 | ID | Módulo | Tarea (1 acción) | Depende | DoD verificable | Estado | Evidencia |
 |---|---|---|---|---|---|---|
-| T08 | Despacho | Aceptar → asignar repartidor → estados recogido/entregado | T06 | Pedido llega a `entregado` con evento | DOING | RPC `a6fb5a34-…360e` → `entregado`; CI https://github.com/wcmg1000-hue/wammetka/actions/runs/34664291940 ; smoke Redmi login falló |
+| T08 | Despacho | Aceptar → asignar repartidor → estados recogido/entregado | T06 | Pedido llega a `entregado` con evento | DONE | Redmi UI `reparto@` APK +7; pedido `dcde6199-…edd33` → `entregado`; eventos `preparado→asignado→recogido→entregado` |
 | T09 | Pagos | Adaptador pasarela sandbox + webhook idempotente | T08 | Pedido prepago autorizado | TODO | |
 | T10 | Liquidación | Corte comercio/repartidor con extracto | T09 | Neto explicable por pedido | TODO | |
 

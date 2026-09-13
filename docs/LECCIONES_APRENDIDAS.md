@@ -11,8 +11,8 @@
 ## Índice
 
 1. [UI](#1--ui) — **1.14** ink tapado en `ListTile`
-2. [Entorno y toolchain (build)](#2--entorno-y-toolchain-build) — **2.6** auto-update · **2.7** upload · **2.8** hang 2.º dispositivo · **2.9** Play Protect · **2.10–2.12** Patrol/JDK (solo si hay E2E)
-3. [Base de datos y backend](#3--base-de-datos-y-backend) — Firebase + Supabase · **3.26–3.32** caja, pedidos, pull/wipe, E2E≠prod, bootstrap, tokens Auth NULL, GRANT helpers RLS
+2. [Entorno y toolchain (build)](#2--entorno-y-toolchain-build) — **2.6** auto-update · **2.7** upload · **2.8** hang 2.º dispositivo · **2.9** Play Protect · **2.10–2.12** Patrol/JDK (solo si hay E2E) · **2.13** JWT anon vs publishable
+3. [Base de datos y backend](#3--base-de-datos-y-backend) — Firebase + Supabase · **3.26–3.33** caja, pedidos, pull/wipe, E2E≠prod, bootstrap, tokens Auth NULL, GRANT helpers RLS, recursión `profiles`
 4. [Proceso de trabajo y QA](#4--proceso-de-trabajo-y-qa) — MD-first, APK+teléfono · **4.22–4.25** E2E opcional / backup
 5. [Checklist preventivo](#5--checklist-preventivo)
 
@@ -639,6 +639,16 @@ Releer el MD → listar destinos/nav → cablear o documentar exclusión → no 
 - **Cómo evitarlo (solo si se monta E2E):** `patrol: ^3.20.0` + `patrol_cli 3.11.0` si `minSdk` &lt; 26; `MainActivityTest` del example **3.20**; tabla oficial de compatibilidad **antes** de subir CLI.
 - **Cómo resolverlo:** bajar CLI a 3.11, alinear Java de instrumentación, `flutter clean` y rebuild.
 
+### 2.13 `[Flutter]` `[Supabase]` Login APK dice «no hay red» con host alcanzable
+
+- **Síntoma:** el paquete de Android (Android Package, APK) muestra «No hay red» al entrar; el ping al host de Supabase responde. El mismo correo/clave por REST puede funcionar.
+- **Causa raíz:** el SDK (`supabase_flutter`) con clave publishable corta (`sb_publishable_…`) falla el Auth como error genérico (no `AuthException`). Si el `catch` mapea **todo** lo desconocido a «sin red», se oculta la causa. Compilar el APK **sin** `--dart-define-from-file` deja la clave vacía o usa el default incorrecto.
+- **Cómo evitarlo:**
+  - En el cliente: si hay JWT `anon` (`eyJ…` y largo), **preferirlo** frente a la publishable corta.
+  - Compilar release con `--dart-define-from-file` (URL + anon; nunca `service_role`).
+  - Mapear a «sin red» solo timeout / socket / host; el resto → credenciales o config, no red.
+- **Cómo resolverlo:** `pickClientKey` con JWT primero; rebuild + instalar. Confirmar `INTERNET` en el manifiesto. No activar `usesCleartextTraffic` si la URL es `https`.
+
 ---
 
 ## Apéndice — Ampliar toolchain / backend / QA (continúa numeración)
@@ -831,6 +841,13 @@ Releer el MD → listar destinos/nav → cablear o documentar exclusión → no 
 - **Cómo evitarlo:** revocar `EXECUTE` de funciones definer **expuestas** (`public.handle_new_user`, etc.). Los helpers que usan las políticas (`private.jwt_role`, `private.is_staff`) necesitan `GRANT USAGE ON SCHEMA private` + `GRANT EXECUTE` a `anon` y `authenticated`.
 - **Cómo resolverlo:** aplicar esos GRANT; no mover los helpers a `public`. Reprobar SELECT del propio perfil con JWT de cliente.
 
+### 3.33 `[Supabase]` Recursión infinita en política de `profiles` (login 500)
+
+- **Síntoma:** Auth (password grant) responde 200; `GET /profiles?id=eq.{uid}` responde 500. La app muestra «correo o contraseña incorrectos» o «no hay red».
+- **Causa raíz:** una política de `profiles` llama `private.is_staff()` → `jwt_role()` → `SELECT` otra vez a `profiles`. Postgres: *infinite recursion detected in policy for relation "profiles"*.
+- **Cómo evitarlo:** helpers que leen `profiles` desde una política de la misma tabla deben ir `SECURITY DEFINER` **y** `SET row_security = off`. La política del propio usuario: solo `id = auth.uid()` (el staff usa su política admin).
+- **Cómo resolverlo:** recrear `jwt_role`/`is_staff` con `row_security = off`; simplificar `profiles_select_own`; confirmar GET 200 del propio perfil.
+
 ### 4.14 `[General]` No usar MCP/ID Stitch; MD primero, HTML manual al final
 
 - **Síntoma:** se pierde tiempo con MCP o pidiendo ID de proyecto Stitch.
@@ -965,7 +982,8 @@ E2E **no** forma parte de la receta 2.10 del kit. Solo si el usuario lo pide y e
 - [ ] Offline-first: outbox + `await kickSync` + badge solo offline; hidratar si `count local < remoto` (**3.13**, **3.20**, **3.30**). Cabecera+líneas: un solo kick; ítems no `failed` terminal (**3.27**). No wipe en pull vacío; tombstone de caché **nunca** hace DELETE remoto (**3.28**).
 - [ ] Trigger anti-autoascenso `rol`/`activo` (**3.14**); tokens temporales → revocar (**3.22**).
 - [ ] Seed Auth: tokens `confirmation_token`/`recovery_token` como `''` no NULL (**3.31**).
-- [ ] Helpers RLS en `private`: `GRANT EXECUTE` a `anon`/`authenticated` si las políticas los llaman (**3.32**).
+- [ ] Helpers RLS en `private`: `GRANT EXECUTE` a `anon`/`authenticated` si las políticas los llaman (**3.32**). Helpers que leen `profiles` desde una política de `profiles`: `SET row_security = off` (**3.33**).
+- [ ] APK Auth: JWT `anon` (`eyJ…`) por encima de publishable corta; `--dart-define-from-file`; no mapear todo error a «sin red» (**2.13**).
 - [ ] Auto-update: arm64 + `app_config` (**2.6**); timeouts upload (**2.7**); 2.º dispositivo (**2.8**); firma release (**2.9**).
 - [ ] Stripe: secret solo Edge; confirm por API; webhook opcional (**3.18**).
 - [ ] Badges = datos reales (**3.19**); facturación SaaS si aplica (**3.21**); cierre de caja = cobros aplicados − gastos (**3.26**).

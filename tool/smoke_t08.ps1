@@ -46,8 +46,25 @@ function Tap-Edit([int]$index) {
   adb -s $serial shell input tap $x $y | Out-Null
 }
 function Type-Text([string]$value) {
-  $escaped = $value.Replace(' ', '%s').Replace('@', '\@').Replace('&', '\&').Replace('#', '\#')
-  adb -s $serial shell input text $escaped | Out-Null
+  foreach ($ch in $value.ToCharArray()) {
+    $s = [string]$ch
+    if ($s -eq '@') {
+      adb -s $serial shell input keyevent 77 | Out-Null
+    } elseif ($s -eq '.') {
+      adb -s $serial shell input keyevent 56 | Out-Null
+    } elseif ($s -eq ' ') {
+      adb -s $serial shell input keyevent 62 | Out-Null
+    } elseif ($s -cmatch '[A-Z]') {
+      $code = 29 + ([int][char]$s.ToLower() - [int][char]'a')
+      adb -s $serial shell input keycombination 59 $code | Out-Null
+    } elseif ($s -match '^[0-9]$') {
+      $code = 7 + ([int][char]$s - [int][char]'0')
+      adb -s $serial shell input keyevent $code | Out-Null
+    } else {
+      adb -s $serial shell input text $s | Out-Null
+    }
+    Start-Sleep -Milliseconds 40
+  }
 }
 
 adb -s $serial shell svc power stayon true | Out-Null
@@ -59,17 +76,34 @@ adb -s $serial shell am force-stop co.wammetka.wammetka
 Start-Sleep -Seconds 1
 adb -s $serial shell am start -n co.wammetka.wammetka/.MainActivity
 Start-Sleep -Seconds 8
-Write-Output ("boot {0}" -f (Labels (Get-Ui)))
+$boot = Get-Ui
+Write-Output ("boot {0}" -f (Labels $boot))
+if ($boot.Contains('Más tarde')) {
+  Tap-Contains $boot 'Más tarde'
+  Start-Sleep -Seconds 1
+}
 
-Tap-Edit 0
-Start-Sleep -Milliseconds 400
+$ms = [regex]::Matches((Get-Ui), 'class="android.widget.EditText"[^>]*bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"')
+if ($ms.Count -lt 2) {
+  $ms = [regex]::Matches((Get-Ui), 'bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"[^>]*class="android.widget.EditText"')
+}
+$e0 = $ms[0]
+adb -s $serial shell input tap ([int](([int]$e0.Groups[1].Value + [int]$e0.Groups[3].Value) / 2)) ([int](([int]$e0.Groups[2].Value + [int]$e0.Groups[4].Value) / 2)) | Out-Null
+Start-Sleep -Milliseconds 300
 Type-Text 'reparto@wammetka.test'
 Start-Sleep -Milliseconds 300
-Tap-Edit 1
-Start-Sleep -Milliseconds 400
+$ms = [regex]::Matches((Get-Ui), 'class="android.widget.EditText"[^>]*bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"')
+if ($ms.Count -lt 2) {
+  $ms = [regex]::Matches((Get-Ui), 'bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"[^>]*class="android.widget.EditText"')
+}
+$e1 = $ms[1]
+$y1 = [int](([int]$e1.Groups[2].Value + [int]$e1.Groups[4].Value) / 2)
+adb -s $serial shell input tap ([int]$e1.Groups[3].Value - 48) $y1 | Out-Null
+Start-Sleep -Milliseconds 350
+adb -s $serial shell input tap ([int]$e1.Groups[1].Value + 80) $y1 | Out-Null
+Start-Sleep -Milliseconds 250
 Type-Text $seed
 Start-Sleep -Milliseconds 300
-adb -s $serial shell input keyevent 4 | Out-Null
 Tap-Contains (Get-Ui) 'Entrar'
 Start-Sleep -Seconds 7
 $xml = Get-Ui
@@ -79,11 +113,12 @@ if ($xml.Contains('No hay red') -or $xml.Contains('incorrectos') -or $xml.Contai
   exit 2
 }
 
-if (-not $xml.Contains('A6FB5A34')) {
+$offer = 'DCDE6199'
+if (-not $xml.Contains($offer)) {
   Write-Output 'NO_OFFER'
   exit 3
 }
-Tap-Contains $xml 'A6FB5A34'
+Tap-Contains $xml $offer
 Start-Sleep -Seconds 3
 $xml = Get-Ui
 Write-Output ("detail {0}" -f (Labels $xml))

@@ -91,7 +91,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 TextFormField(
                   controller: _email,
                   keyboardType: TextInputType.emailAddress,
-                  autofillHints: const [AutofillHints.email],
+                  autocorrect: false,
+                  enableSuggestions: false,
                   enabled: !_busy,
                   decoration: const InputDecoration(
                     labelText: 'Correo electrónico',
@@ -103,7 +104,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   controller: _password,
                   obscureText: _obscure,
                   enabled: !_busy,
-                  autofillHints: const [AutofillHints.password],
                   decoration: InputDecoration(
                     labelText: 'Contraseña',
                     suffixIcon: IconButton(

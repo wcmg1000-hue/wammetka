@@ -12,10 +12,24 @@ abstract final class Env {
     'SUPABASE_PUBLISHABLE_KEY',
   );
 
-  static String get clientKey => supabasePublishableKey.isNotEmpty
-      ? supabasePublishableKey
-      : supabaseAnonKey;
+  static String get clientKey =>
+      pickClientKey(anon: supabaseAnonKey, publishable: supabasePublishableKey);
 
   static bool get isConfigured =>
       supabaseUrl.isNotEmpty && clientKey.isNotEmpty;
+
+  /// Flutter + GoTrue aceptan el JWT `anon`. La publishable corta
+  /// (`sb_publishable_…`) en este SDK puede fallar como error de red.
+  static String pickClientKey({
+    required String anon,
+    required String publishable,
+  }) {
+    if (anon.startsWith('eyJ') && anon.length > 80) {
+      return anon;
+    }
+    if (publishable.isNotEmpty) {
+      return publishable;
+    }
+    return anon;
+  }
 }

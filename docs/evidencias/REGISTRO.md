@@ -51,5 +51,9 @@
 | 2026-09-11 | T08 Despacho | RPC seed `reparto@` | aceptar_servicio → recogido → entregado | PASS | staging | pedido `a6fb5a34-9662-46ba-908a-ff3c438a360e` | eventos `preparado→asignado→recogido→entregado` nota `Entregado en porteria` |
 | 2026-09-11 | T08 Despacho | smoke teléfono | login `reparto@` en APK +6 | FAIL | Redmi 68486ddd | `versionCode=6` | UI `No hay red` (ping a host OK). **T08 no DONE** |
 | 2026-09-11 | T08 Despacho | pipeline Actions | workflow `CI` · jobs `verify` + `build_apk` | PASS | GitHub Actions | `2042932` | https://github.com/wcmg1000-hue/wammetka/actions/runs/34664291940 |
+| 2026-09-12 | T08 Despacho | diagnose login APK | defines URL+JWT anon+publishable; INTERNET granted; host ping OK | PASS | Redmi 68486ddd + staging | APK +7 con `--dart-define-from-file` | «No hay red» en +6: publishable corta + `catch` a offline. Tras JWT: Auth 200 |
+| 2026-09-12 | T08 Despacho | RLS profiles | GET `/profiles?id=eq.{uid}` | PASS (antes 500) | staging | `row_security=off` + políticas sin reentrar | Postgres: *infinite recursion* en `profiles`. Login UI dejaba de cargar perfil |
+| 2026-09-12 | T08 Despacho | analyze + tests | `flutter analyze` + `flutter test` | PASS | local Flutter 3.47.2 | 32 + 2 skip live | 0 issues analyze |
+| 2026-09-12 | T08 Despacho | smoke teléfono AC-12 | login `reparto@` → Servicios → Aceptar → Recogido → Entregado | PASS | Redmi 68486ddd APK +7 | pedido `dcde6199-cd20-4f22-8a9a-e327b60edd33` | UI `Entregado`; SQL `entregado`; eventos `preparado→asignado→recogido→entregado` |
 
 Solo usar `PASS` cuando el resultado haya sido observado. No guardar secretos ni datos personales.

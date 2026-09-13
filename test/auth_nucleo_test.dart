@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'package:wammetka/config/env.dart';
 import 'package:wammetka/features/auth/auth_errors.dart';
 import 'package:wammetka/features/auth/auth_models.dart';
 import 'package:wammetka/features/auth/auth_policy.dart';
@@ -47,6 +48,16 @@ void main() {
       expect(AuthValidators.passwordMin8('corta'), isNotNull);
       expect(AuthValidators.nombre('A'), isNotNull);
       expect(AuthValidators.telefono('12'), isNotNull);
+    });
+  });
+
+  group('clave cliente', () {
+    test('prefiere JWT anon frente a publishable corta', () {
+      final jwt = 'eyJ${'a' * 100}';
+      expect(
+        Env.pickClientKey(anon: jwt, publishable: 'sb_publishable_corta'),
+        jwt,
+      );
     });
   });
 }

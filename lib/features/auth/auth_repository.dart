@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../config/supabase_bootstrap.dart';
@@ -41,21 +43,29 @@ class AuthRepository {
       throw const AuthAppException(kAuthMissingConfigMessage);
     }
     try {
-      final res = await client.auth.signInWithPassword(
-        email: email.trim(),
-        password: password,
-      );
+      final res = await client.auth
+          .signInWithPassword(email: email.trim(), password: password)
+          .timeout(const Duration(seconds: 20));
       final userId = res.user?.id;
       if (userId == null) {
         throw const AuthAppException(kAuthFailedMessage);
       }
-      return await _loadProfile(client, userId);
+      try {
+        return await _loadProfile(client, userId);
+      } on AuthAppException {
+        rethrow;
+      } catch (error) {
+        await client.auth.signOut();
+        throw AuthAppException(mapAuthFailure(error));
+      }
     } on AuthAppException {
       rethrow;
     } on AuthException {
       throw const AuthAppException(kAuthFailedMessage);
-    } catch (_) {
+    } on TimeoutException {
       throw const AuthAppException(kAuthOfflineMessage);
+    } catch (error) {
+      throw AuthAppException(mapAuthFailure(error));
     }
   }
 

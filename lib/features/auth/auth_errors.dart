@@ -19,5 +19,16 @@ String mapAuthFailure(Object error) {
   if (error is AuthException) {
     return kAuthFailedMessage;
   }
-  return kAuthOfflineMessage;
+  if (error is PostgrestException) {
+    return kAuthOrphanProfileMessage;
+  }
+  final lower = error.toString().toLowerCase();
+  if (lower.contains('socket') ||
+      lower.contains('failed host') ||
+      lower.contains('timeout') ||
+      lower.contains('clientexception') ||
+      lower.contains('network')) {
+    return kAuthOfflineMessage;
+  }
+  return kAuthFailedMessage;
 }

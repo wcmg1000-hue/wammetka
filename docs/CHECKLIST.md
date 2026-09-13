@@ -3,7 +3,7 @@
 Marca `[x]` solo con evidencia observada en `docs/evidencias/REGISTRO.md`. Usa `N/A — motivo` cuando una ruta no aplique.
 
 **Proyecto:** Wammetka  
-**Fase actual:** 4 — Converge P0 OK. T08 Despacho DOING. T03 local Docker N/A.
+**Fase actual:** 4 — Converge P0 OK. T08 Despacho DONE. T09 Pagos TODO. T03 local Docker N/A.
 
 ## Fase 0 — Preparación reproducible
 
@@ -99,7 +99,7 @@ Orden: T01 scaffold → T02 CI → T03/T04 seed+smoke → T05 auth+tests → T06
 
 - [x] Spec / criterio de la tarea `TASKS.md` leídos.
 - [x] Criterios de aceptación y matriz rol × acción cubiertos. AC-01…AC-11 con dueño.
-- [x] **Una sola** tarea atómica `TODO` a la vez (`CG.implement`). T08 es la DOING.
+- [x] **Una sola** tarea atómica `TODO` a la vez (`CG.implement`). T08 DONE; T09 es la siguiente.
 - [x] Validación, errores, loading, vacío, offline y concurrencia tratados según aplique.
 - [x] Tareas pesadas no bloquean la UI.
 - [x] Tests del núcleo: los 3 mínimos existen; ampliar si la tarea tocó dominio.
@@ -177,4 +177,5 @@ Orden: T01 scaffold → T02 CI → T03/T04 seed+smoke → T05 auth+tests → T06
 - 2026-09-11: Reintento install SUCCESS. T01/T04/T05 DONE en Redmi. Siguiente T06.
 - T03 no debe usar el project-ref de otro aplicativo de la org.
 - 2026-09-11: T07 DONE. Instalado 4 vs remoto 5; diálogo + hash OK; `dumpsys versionCode=5`. URL pública Storage `apk/releases/wammetka-v0.1.0+5-arm64.apk`. CI https://github.com/wcmg1000-hue/wammetka/actions/runs/34662746664
+- 2026-09-12: T08 DONE. Smoke Redmi `reparto@` APK +7; pedido `dcde6199-…edd33` `entregado`. Causa login: JWT vs publishable + recursión RLS `profiles`.
 
